@@ -43,7 +43,7 @@ export default function Top() {
   /** 홈 버튼 렌더링 여부 */
   const renderHome = curPath === '/result';
   /** 모달창 열기 */
-  function openModal() {
+  function handleOpenModal() {
     setRenderModal(true);
   }
 
@@ -121,7 +121,7 @@ export default function Top() {
                   opacity: '50%',
                 },
               }}
-              onClick={openModal}
+              onClick={handleOpenModal}
             >
               <img
                 src={Home}
@@ -138,7 +138,7 @@ export default function Top() {
       </div>
       {renderModal && (
         <ModalPortal>
-          <Modal handleModal={setRenderModal} />
+          <Modal setRenderModal={setRenderModal} />
         </ModalPortal>
       )}
     </>

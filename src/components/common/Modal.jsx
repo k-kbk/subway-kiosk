@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-export default function Modal({ handleModal }) {
+export default function Modal({ setRenderModal }) {
   /** 모달창 닫기 */
-  function closeModal() {
-    handleModal(false);
+  function handleCloseModal() {
+    setRenderModal(false);
   }
 
   return (
@@ -77,7 +77,7 @@ export default function Modal({ handleModal }) {
                 opacity: '50%',
               },
             }}
-            onClick={closeModal}
+            onClick={handleCloseModal}
           >
             취소
           </button>
