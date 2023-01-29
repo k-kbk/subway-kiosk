@@ -12,7 +12,7 @@ export default function Step({ active, children }) {
         margin: '0 1.5rem',
         borderRadius: '50%',
         border: '0.5rem solid var(--green)',
-        backgroundColor: `${active ? 'var(--yellow)' : 'var(--white)'}`,
+        backgroundColor: active ? 'var(--yellow)' : 'var(--white)',
         filter: 'var(--dropShadow)',
       }}
     >
