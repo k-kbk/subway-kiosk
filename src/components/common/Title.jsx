@@ -9,6 +9,7 @@ export default function Title({ children }) {
         display: 'flex',
         flexBasis: '100%',
         alignItems: 'center',
+        filter: 'var(--dropShadow)',
         '&:before': {
           content: '""',
           fontSize: 0,

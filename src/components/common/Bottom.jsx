@@ -144,11 +144,12 @@ export default function Bottom() {
         fontSize: '1.5rem',
         fontWeight: 600,
         width: '100%',
-        height: '4rem',
+        height: '4.25rem',
         display: 'flex',
         justifyContent: isMenu ? 'flex-end' : 'space-between',
         alignItems: 'center',
         borderTop: '1.5px solid rgba(0, 0, 0, 0.1)',
+        filter: 'var(--dropShadow)',
       }}
     >
       {renderPrevBtn && (
@@ -215,7 +216,7 @@ export default function Bottom() {
           to={greenBtn[curPath].to}
           css={{
             color: 'var(--white)',
-            fontWeight: 600,
+            fontWeight: 700,
             height: '100%',
             display: 'flex',
             justifyContent: 'center',

@@ -55,8 +55,8 @@ html {
   --yellow: #ffc600;
   --white: #ffffff;
   --black: #1d1c21;
-  --dropShadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1))
-    drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+  --gray: #6b7684;
+  --dropShadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
   font-family: 'Pretendard Variable', 'sans-serif';
   width: auto;
   height: auto;
@@ -77,4 +77,9 @@ html {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+#modal-root {
+  position: fixed;
+  z-index: 100;
+  top: 0;
 }

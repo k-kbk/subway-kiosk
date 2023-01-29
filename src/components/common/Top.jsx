@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Home from '../../assets/home.svg';
 import Logo from '../../assets/logo_original.svg';
 import Step from './Step';
+import ModalPortal from './ModalPortal';
+import Modal from './Modal';
 
 /** 단계 경로 및 내용 */
 const step = {
@@ -23,6 +26,8 @@ const step = {
 };
 
 export default function Top() {
+  /** 모달 렌더링 여부 */
+  const [renderModal, setRenderModal] = useState(false);
   /** 현재 페이지에 대한 정보 */
   const location = useLocation();
   /** 현재 페이지의 경로명 */
@@ -37,6 +42,10 @@ export default function Top() {
     curPath === '/combo';
   /** 홈 버튼 렌더링 여부 */
   const renderHome = curPath === '/result';
+  /** 모달창 열기 */
+  function openModal() {
+    setRenderModal(true);
+  }
 
   return (
     <>
@@ -48,6 +57,7 @@ export default function Top() {
           position: 'fixed',
           zIndex: '-10',
           backgroundColor: 'var(--green)',
+          filter: 'var(--dropShadow)',
         }}
       ></div>
       <div
@@ -74,6 +84,7 @@ export default function Top() {
             alt="logo"
             css={{
               width: '12rem',
+              filter: 'var(--dropShadow)',
             }}
           />
         </div>
@@ -110,6 +121,7 @@ export default function Top() {
                   opacity: '50%',
                 },
               }}
+              onClick={openModal}
             >
               <img
                 src={Home}
@@ -117,12 +129,18 @@ export default function Top() {
                 css={{
                   width: '2.25rem',
                   height: '2.25rem',
+                  filter: 'var(--dropShadow)',
                 }}
               />
             </button>
           </div>
         )}
       </div>
+      {renderModal && (
+        <ModalPortal>
+          <Modal handleModal={setRenderModal} />
+        </ModalPortal>
+      )}
     </>
   );
 }
