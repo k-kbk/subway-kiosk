@@ -14,7 +14,7 @@ import Result from './components/result/Index';
 
 export default function App() {
   return (
-    <Layout>
+    //<Layout>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
@@ -28,6 +28,6 @@ export default function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/result" element={<Result />} />
       </Routes>
-    </Layout>
+    //</Layout>
   );
 }
