@@ -55,6 +55,8 @@ html {
   --yellow: #ffc600;
   --white: #ffffff;
   --black: #1d1c21;
+  --gray: #6b7684;
+  --dropShadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
   font-family: 'Pretendard Variable', 'sans-serif';
   width: auto;
   height: auto;
@@ -66,7 +68,6 @@ html {
 *::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/
 }
-
 #root {
   color: var(--black);
   min-height: 100vh;
@@ -76,4 +77,9 @@ html {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+#modal-root {
+  position: fixed;
+  z-index: 100;
+  top: 0;
 }
