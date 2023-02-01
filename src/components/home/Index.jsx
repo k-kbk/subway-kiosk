@@ -11,18 +11,32 @@ export default function Index() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-evenly',
-        borderTop: '20px solid var(--green)',
-        borderBottom: '20px solid var(--green)',
+        borderTop: '16px solid var(--green)',
+        borderBottom: '16px solid var(--green)',
       }}
     >
-      <div css={{ margin: '1rem 0 1rem 4rem' }}>
+      <div
+        css={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         <img
           src={Logo}
           css={{
-            width: '18rem',
+            width: '17rem',
             filter: 'var(--dropShadow)',
+            margin: '1rem 4.5rem',
           }}
           alt="logo"
+        />
+        <div
+          css={{
+            width: '100%',
+            height: '12px',
+            backgroundColor: 'var(--yellow)',
+          }}
         />
       </div>
       <img src={Banner} css={{ width: '100%' }} alt="banner" />
@@ -32,7 +46,7 @@ export default function Index() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          margin: '2rem 0',
+          margin: '1.25rem 0',
         }}
       >
         <Button>매장에서 식사</Button>
