@@ -11,8 +11,8 @@ export default function Index() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-evenly',
-        borderTop: '24px solid var(--green)',
-        borderBottom: '24px solid var(--green)',
+        borderTop: '20px solid var(--green)',
+        borderBottom: '20px solid var(--green)',
       }}
     >
       <div css={{ margin: '1rem 0 1rem 4rem' }}>
