@@ -14,13 +14,9 @@ export default function Layout({ children }) {
 
   return (
     <>
-      {!renderLayout && (
-        <>
-          <Header />
-          {children}
-          {!renderBottom && <Bottom />}
-        </>
-      )}
+      {!renderLayout && <Header />}
+      {children}
+      {!renderBottom && !renderLayout && <Bottom />}
     </>
   );
 }

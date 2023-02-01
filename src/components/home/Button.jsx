@@ -1,20 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-export default function Button(props){
-    return (<Link to="/menu"><button
-        css={{
-            width: '360px',
-            height: '120px',
-            background: 'var(--green)',
-            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.3)',
-            borderRadius: '12px',
-            fontWeight: '620',
-            fontSize: '40px',
-            color: 'white',
-            margin: '0 30px',
-            '&:hover': {
-                opacity:'50%'
-            }
-        }}
-    >{props.title}</button></Link>)
+export default function Button({ children }) {
+  return (
+    <Link
+      to="/menu"
+      css={{
+        color: 'var(--white)',
+        fontSize: '2rem',
+        fontWeight: 700,
+        width: '20rem',
+        height: '6rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'var(--green)',
+        borderRadius: '12px',
+        boxShadow: '0px 3px 4px rgba(0, 0, 0, 0.3)',
+        margin: '0 5rem',
+        '&:hover': {
+          opacity: '50%',
+        },
+      }}
+    >
+      {children}
+    </Link>
+  );
 }

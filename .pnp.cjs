@@ -143,6 +143,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:11.10.5"\
       ],\
       [\
+        "@emotion/eslint-plugin",\
+        "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.0"\
+      ],\
+      [\
         "@emotion/hash",\
         "npm:0.9.0"\
       ],\
@@ -1861,6 +1865,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["@emotion/babel-plugin", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.5"],\
+            ["@emotion/eslint-plugin", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.0"],\
             ["@emotion/react", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.5"],\
             ["@emotion/styled", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.5"],\
             ["@tanstack/react-query", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:4.22.0"],\
@@ -2302,6 +2307,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@emotion/utils", "npm:1.2.0"],\
             ["@emotion/weak-memoize", "npm:0.3.0"],\
             ["stylis", "npm:4.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@emotion/eslint-plugin", [\
+        ["npm:11.10.0", {\
+          "packageLocation": "./.yarn/cache/@emotion-eslint-plugin-npm-11.10.0-2d34a6a1f7-b848600bbd.zip/node_modules/@emotion/eslint-plugin/",\
+          "packageDependencies": [\
+            ["@emotion/eslint-plugin", "npm:11.10.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.0", {\
+          "packageLocation": "./.yarn/__virtual__/@emotion-eslint-plugin-virtual-ab03eb74a3/0/cache/@emotion-eslint-plugin-npm-11.10.0-2d34a6a1f7-b848600bbd.zip/node_modules/@emotion/eslint-plugin/",\
+          "packageDependencies": [\
+            ["@emotion/eslint-plugin", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.0"],\
+            ["@types/eslint", null],\
+            ["eslint", "npm:8.32.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/eslint",\
+            "eslint"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7147,6 +7174,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["subway-kiosk", "workspace:."],\
             ["@emotion/babel-plugin", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.5"],\
+            ["@emotion/eslint-plugin", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.0"],\
             ["@emotion/react", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.5"],\
             ["@emotion/styled", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:11.10.5"],\
             ["@tanstack/react-query", "virtual:5f837d96a71e0fe13c77a614b3c44acb0a57c364fb045987e0ace2ac4884845b3446d66bfe496ec6c0304c360f4c8af738c795cb71423d852c0022efc1b93215#npm:4.22.0"],\

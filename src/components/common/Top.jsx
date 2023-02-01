@@ -59,7 +59,7 @@ export default function Top() {
           backgroundColor: 'var(--green)',
           filter: 'var(--dropShadow)',
         }}
-      ></div>
+      />
       <div
         css={{
           width: 'auto',
@@ -112,6 +112,7 @@ export default function Top() {
             }}
           >
             <button
+              type="button"
               css={{
                 width: '100%',
                 display: 'flex',

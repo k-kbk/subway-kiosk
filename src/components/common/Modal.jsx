@@ -69,6 +69,7 @@ export default function Modal({ setRenderModal }) {
           }}
         >
           <button
+            type="button"
             css={{
               textAlign: 'center',
               color: 'var(--gray)',
