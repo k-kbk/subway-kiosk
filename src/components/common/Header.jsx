@@ -27,8 +27,12 @@ export default function Header() {
     <header
       css={{
         width: '100%',
-        height: '8rem',
-        marginTop: '1rem',
+        height: 'auto',
+        paddingTop: '0.5rem',
+        position: 'fixed',
+        zIndex: 50,
+        backgroundColor: 'var(--white)',
+        filter: 'var(--dropShadow)',
       }}
     >
       <Top />

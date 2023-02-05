@@ -145,9 +145,12 @@ export default function Bottom() {
         fontWeight: 600,
         width: '100%',
         height: '4.25rem',
+        position: 'fixed',
+        bottom: 0,
         display: 'flex',
         justifyContent: isMenu ? 'flex-end' : 'space-between',
         alignItems: 'center',
+        backgroundColor: 'var(--white)',
         borderTop: '1.5px solid rgba(0, 0, 0, 0.1)',
         filter: 'var(--dropShadow)',
       }}

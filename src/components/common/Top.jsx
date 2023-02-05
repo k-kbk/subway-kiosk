@@ -53,7 +53,7 @@ export default function Top() {
         css={{
           width: '100%',
           height: '1.75rem',
-          top: '2.625rem',
+          top: '2.125rem',
           position: 'fixed',
           zIndex: '-10',
           backgroundColor: 'var(--green)',
