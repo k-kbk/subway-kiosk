@@ -17,7 +17,7 @@
   },
   "plugins": ["react", "@emotion"],
   "rules": {
-    "prettier/prettier": ["error"],
+    "prettier/prettier": ["error",{"endOfLine": "auto"}],
     "react/react-in-jsx-scope": "off",
     "react/no-unknown-property": ["error", { "ignore": ["css"] }],
     "react/prop-types": "off",

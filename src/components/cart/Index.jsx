@@ -1,3 +1,10 @@
+import ListBox from './ListBox';
+
 export default function Index() {
-  <div>hi</div>;
+  return (
+    <div>
+      <ListBox />
+      <ListBox />
+    </div>
+  );
 }
