@@ -15,7 +15,7 @@ export default function Index() {
 
   const timeDecrease = () => {
     setInterval(() => {
-      decrease(number - 1);
+      decrease((counter) => counter - 1);
     }, 1000);
   };
 
@@ -30,9 +30,9 @@ export default function Index() {
   useEffect(() => {
     timeDecrease();
     return () => {
-      clearTimeout(timeDecrease);
+      clearInterval(timeDecrease);
     };
-  });
+  }, []);
 
   return (
     <div
