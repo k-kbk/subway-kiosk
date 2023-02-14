@@ -9,7 +9,7 @@ import Vegetable from './components/vegetable/Index';
 import Sauce from './components/sauce/Index';
 import Topping from './components/topping/Index';
 import Combo from './components/combo/Index';
-import Payment from './components/payment/Index';
+import Pay from './components/pay/Index';
 import Result from './components/result/Index';
 
 export default function App() {
@@ -25,7 +25,7 @@ export default function App() {
         <Route path="/sauce" element={<Sauce />} />
         <Route path="/topping" element={<Topping />} />
         <Route path="/combo" element={<Combo />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/pay" element={<Pay />} />
         <Route path="/result" element={<Result />} />
       </Routes>
     </Layout>
