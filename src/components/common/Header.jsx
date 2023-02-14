@@ -12,7 +12,7 @@ const titleContent = {
   '/topping': '추가 선택하기',
   '/combo': '세트 선택하기',
   '/cart': '장바구니',
-  '/pay': '결제하기',
+  '/payment': '결제하기',
 };
 
 export default function Header() {
@@ -27,8 +27,12 @@ export default function Header() {
     <header
       css={{
         width: '100%',
-        height: '8rem',
-        marginTop: '1rem',
+        height: 'auto',
+        paddingTop: '0.5rem',
+        position: 'fixed',
+        zIndex: 50,
+        backgroundColor: 'var(--white)',
+        filter: 'var(--dropShadow)',
       }}
     >
       <Top />
