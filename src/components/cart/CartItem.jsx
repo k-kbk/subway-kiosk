@@ -4,7 +4,7 @@ import Minus from '../../assets/minus.svg';
 import Plus from '../../assets/plus.svg';
 import Sandwich from '../../assets/sandwich.svg';
 
-export default function ListBox({
+export default function CartItem({
   menu,
   bread,
   cheese,

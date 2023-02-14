@@ -1,4 +1,4 @@
-import ListBox from './ListBox';
+import CartItem from './CartItem';
 
 export default function Index() {
   const dummy = [
@@ -44,9 +44,13 @@ export default function Index() {
     },
   ];
   return (
-    <div>
+    <div
+      css={{
+        padding: '12rem 0rem 4rem 0rem',
+      }}
+    >
       {dummy.map((dum) => (
-        <ListBox
+        <CartItem
           menu={dum.menu}
           bread={dum.bread}
           cheese={dum.cheese}

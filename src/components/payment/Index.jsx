@@ -2,7 +2,16 @@ import Button from './Button.jsx';
 
 export default function Index() {
   return (
-    <div>
+    <div
+      css={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <div css={{ display: 'flex' }}>
         <Button>신용 카드</Button>
         <Button>

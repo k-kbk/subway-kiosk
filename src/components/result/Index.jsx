@@ -4,21 +4,18 @@ import Button from '../home/Button.jsx';
 
 export default function Index() {
   const navigate = useNavigate();
+  const [number, decrease] = useState(5);
   /** 5초 뒤 초기화면으로 돌아감 */
   const timeout = () => {
     setTimeout(() => {
       navigate('/');
     }, 5000);
   };
-
-  const [number, decrease] = useState(5);
-
   const timeDecrease = () => {
     setInterval(() => {
       decrease((counter) => counter - 1);
     }, 1000);
   };
-
   /** 컴포넌트가 화면에 다 나타나면 timeout() 실행 */
   useEffect(() => {
     timeout();
@@ -26,7 +23,6 @@ export default function Index() {
       clearTimeout(timeout);
     };
   }, []);
-
   useEffect(() => {
     timeDecrease();
     return () => {
@@ -37,8 +33,12 @@ export default function Index() {
   return (
     <div
       css={{
-        textAlign: 'center',
-        marginBottom: '180px',
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       <div
@@ -63,8 +63,6 @@ export default function Index() {
       <div
         css={{
           marginTop: '70px',
-          position: 'relative',
-          left: '80px',
         }}
       >
         <Button>확인</Button>
