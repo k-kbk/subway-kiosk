@@ -11,6 +11,7 @@ export default function Layout({ children }) {
   const renderLayout = curPath === '/';
   /** 하단 렌더링 여부 */
   const renderBottom = curPath === '/result';
+  /** 메인 렌더링 여부 */
 
   return (
     <>

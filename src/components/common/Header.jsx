@@ -12,7 +12,7 @@ const titleContent = {
   '/topping': '추가 선택하기',
   '/combo': '세트 선택하기',
   '/cart': '장바구니',
-  '/pay': '결제하기',
+  '/payment': '결제하기',
 };
 
 export default function Header() {

@@ -56,6 +56,7 @@ html {
   --white: #ffffff;
   --black: #1d1c21;
   --gray: #6b7684;
+  --lightGray: #f9f9f9;
   --dropShadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
   font-family: 'Pretendard Variable', 'sans-serif';
   width: auto;

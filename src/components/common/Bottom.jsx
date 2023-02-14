@@ -101,7 +101,7 @@ const greenBtn = {
     content: '장바구니',
   },
   '/cart': {
-    to: '/pay',
+    to: '/payment',
     content: '결제하기',
   },
   '/combo': {

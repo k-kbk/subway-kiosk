@@ -1,10 +1,8 @@
 import { useState } from 'react';
-
 import { Link } from 'react-router-dom';
 
 export default function SandwichModal({
   setRenderModal,
-  id,
   img,
   kcal,
   nameKR,
@@ -35,7 +33,7 @@ export default function SandwichModal({
     >
       <div
         css={{
-          width: '36rem',
+          width: '34rem',
           height: '40rem',
           display: 'flex',
           flexDirection: 'column',
@@ -60,12 +58,12 @@ export default function SandwichModal({
             src={img}
             alt={nameKR}
             css={{
-              width: '26rem',
+              width: '24rem',
             }}
           />
           <div
             css={{
-              width: '20rem',
+              width: '22rem',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -104,7 +102,7 @@ export default function SandwichModal({
           </div>
           <div
             css={{
-              width: '23rem',
+              width: '22rem',
               display: 'flex',
               justifyContent: 'space-between',
               marginTop: '4rem',
@@ -112,18 +110,15 @@ export default function SandwichModal({
           >
             <button
               type="button"
-              value={'15cm'}
+              value="15cm"
               css={{
                 color:
                   selectedSize === '15cm' ? 'var(--white)' : 'var(--black)',
-                padding: '1.25rem 2.25rem',
+                padding: '1.5rem 3rem',
                 backgroundColor:
                   selectedSize === '15cm' ? 'var(--green)' : '#f7f7f7',
                 borderRadius: 12,
                 filter: 'var(--dropShadow)',
-                '&:hover': {
-                  opacity: '50%',
-                },
               }}
               onClick={handleSelectSize}
             >
@@ -147,18 +142,15 @@ export default function SandwichModal({
             </button>
             <button
               type="button"
-              value={'30cm'}
+              value="30cm"
               css={{
                 color:
                   selectedSize === '30cm' ? 'var(--white)' : 'var(--black)',
-                padding: '1.25rem 2.25rem',
+                padding: '1.5rem 3rem',
                 backgroundColor:
                   selectedSize === '30cm' ? 'var(--green)' : '#f7f7f7',
                 borderRadius: 12,
                 filter: 'var(--dropShadow)',
-                '&:hover': {
-                  opacity: '50%',
-                },
               }}
               onClick={handleSelectSize}
             >
@@ -217,7 +209,7 @@ export default function SandwichModal({
               },
             }}
           >
-            다음으로
+            다음
           </Link>
         </div>
       </div>

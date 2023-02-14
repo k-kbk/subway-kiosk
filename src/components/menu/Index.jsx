@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
 import ModalPortal from '../common/ModalPortal';
 import SandwichModal from '../common/SandwichModal';
@@ -216,88 +218,91 @@ const menuData = {
 };
 
 export default function Index() {
-  /** 모달 렌더링 여부 */
   const [renderModal, setRenderModal] = useState(false);
   const [modalMenu, setModalMenu] = useState({});
+  const [menuType, setMenuType] = useState('sandwich');
+  const navigate = useNavigate();
   /** 모달창 열기 */
   function handleOpenModal(menu) {
-    setModalMenu(menu);
-    setRenderModal(true);
+    if (menuType === 'sandwich') {
+      setModalMenu(menu);
+      setRenderModal(true);
+      return;
+    }
+    if (menuType === 'salad') {
+      navigate('/cheese');
+    }
   }
 
   return (
-    <main
-      css={{
-        padding: '9.5rem 5rem 3.25rem 5rem',
+    <MainGrid
+      gridCss={{
+        '@media(min-width: 1536px)': {
+          gridTemplateColumns: '22rem 22rem 22rem 22rem',
+        },
       }}
     >
-      <div
-        css={{
-          width: '100%',
-          display: 'grid',
-          justifyItems: 'center',
-          gridTemplateColumns: '23rem 23rem 23rem',
-          overflow: 'scroll',
-        }}
-      >
-        {menuData['sandwich'].map((menu) => (
-          <Card key={menu.id} onClick={() => handleOpenModal(menu)}>
-            <img
-              src={menu.img}
-              alt={menu.nameKR}
-              css={{
-                width: '14rem',
-                margin: '-1.5rem 0 -0.75rem 0',
-              }}
-            />
-            <div
-              css={{
-                lineHeight: 1.2,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <p
-                css={{
-                  fontSize: '1.5rem',
-                  fontWeight: 700,
-                }}
-              >
-                {menu.nameKR}
-              </p>
-              <p
-                css={{
-                  color: 'var(--gray)',
-                  fontSize: '1rem',
-                  fontWeight: 500,
-                }}
-              >
-                {menu.nameEN}
-              </p>
-            </div>
+      {menuData[menuType].map((menu) => (
+        <Card key={menu.id} onClick={() => handleOpenModal(menu)}>
+          <img
+            src={menu.img}
+            alt={menu.nameKR}
+            css={{
+              width: '14rem',
+              margin: '-1.5rem 0 -0.75rem 0',
+            }}
+          />
+          <div
+            css={{
+              lineHeight: 1.2,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <p
               css={{
-                color: 'var(--green)',
                 fontSize: '1.5rem',
                 fontWeight: 700,
-                marginTop: '0.5rem',
               }}
             >
-              {`${menu.price15.toLocaleString()}원`}
+              {menu.nameKR}
             </p>
             <p
               css={{
-                color: 'var(--yellow)',
-                fontWeight: 700,
+                color: 'var(--gray)',
+                fontSize: '1rem',
+                fontWeight: 500,
               }}
             >
-              {`${menu.kcal}kcal`}
+              {menu.nameEN}
             </p>
-          </Card>
-        ))}
-      </div>
+          </div>
+          <p
+            css={{
+              color: 'var(--green)',
+              fontSize: '1.5rem',
+              fontWeight: 700,
+              marginTop: '0.5rem',
+            }}
+          >
+            {`${
+              menuType === 'sandwich'
+                ? menu.price15.toLocaleString()
+                : menu.price.toLocaleString()
+            }원`}
+          </p>
+          <p
+            css={{
+              color: 'var(--yellow)',
+              fontWeight: 700,
+            }}
+          >
+            {`${menu.kcal}kcal`}
+          </p>
+        </Card>
+      ))}
       {renderModal && (
         <ModalPortal>
           <SandwichModal
@@ -311,6 +316,6 @@ export default function Index() {
           />
         </ModalPortal>
       )}
-    </main>
+    </MainGrid>
   );
 }
