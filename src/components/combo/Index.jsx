@@ -1,7 +1,10 @@
+import { useRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
+import itemRecoilState from '../../recoil/itemRecoilState';
 
-const toppingData = [
+const comboData = [
   {
     id: 1,
     nameKR: '단품',
@@ -23,13 +26,93 @@ const toppingData = [
 ];
 
 export default function Index() {
+  const [itemState, setItemState] = useRecoilState(itemRecoilState);
+  const [change, setChange] = useState('off');
+
+  const isOnClick = () => {
+    setChange('on');
+    console.log(change);
+  };
+
+  useEffect(() => {
+    console.log(itemState);
+  }, [itemState]);
+
+  const setPrice = (id) => {
+    /** 맨 처음 선택 시 */
+    if (change === 'off') {
+      setItemState({
+        ...itemState,
+        comboId: id,
+        currentPrice:
+          itemState.currentPrice + (id === 1 ? 0 : id === 2 ? 1900 : 3100),
+      });
+    } else {
+      /** 2회 이상 선택 시 */
+      if (id === 1) {
+        if (itemState.currentPrice === itemState.price + 1900) {
+          setItemState({
+            ...itemState,
+            comboId: id,
+            currentPrice: itemState.currentPrice - 1900,
+          });
+        } else if (itemState.currentPrice === itemState.price + 3100) {
+          setItemState({
+            ...itemState,
+            comboId: id,
+            currentPrice: itemState.currentPrice - 3100,
+          });
+        }
+      }
+      if (id === 2) {
+        if (itemState.currentPrice === itemState.price) {
+          setItemState({
+            ...itemState,
+            comboId: id,
+            currentPrice: itemState.currentPrice + 1900,
+          });
+        } else if (itemState.currentPrice === itemState.price + 3100) {
+          setItemState({
+            ...itemState,
+            comboId: id,
+            currentPrice: itemState.currentPrice - 3100 + 1900,
+          });
+        }
+      } else if (id === 3) {
+        if (itemState.currentPrice === itemState.price) {
+          setItemState({
+            ...itemState,
+            comboId: id,
+            currentPrice: itemState.currentPrice + 3100,
+          });
+        } else if (itemState.currentPrice === itemState.price + 1900) {
+          setItemState({
+            ...itemState,
+            comboId: id,
+            currentPrice: itemState.currentPrice - 1900 + 3100,
+          });
+        }
+      }
+    }
+  };
+
   return (
     <MainGrid>
-      {toppingData.map((topping) => (
-        <Card key={topping.id}>
+      {comboData.map((combo) => (
+        <Card
+          key={combo.id}
+          onClick={() => {
+            setPrice(combo.id);
+            isOnClick();
+          }}
+          cardCss={{
+            border:
+              combo.id === itemState.comboId ? '6px solid var(--green)' : '',
+          }}
+        >
           <img
-            src={topping.img}
-            alt={topping.name}
+            src={combo.img}
+            alt={combo.name}
             css={{
               width: '14rem',
             }}
@@ -50,7 +133,7 @@ export default function Index() {
                 fontWeight: 700,
               }}
             >
-              {topping.nameKR}
+              {combo.nameKR}
             </p>
             <p
               css={{
@@ -59,7 +142,7 @@ export default function Index() {
                 fontWeight: 500,
               }}
             >
-              {topping.nameEN}
+              {combo.nameEN}
             </p>
           </div>
         </Card>

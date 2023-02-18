@@ -1,5 +1,8 @@
+import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
+import itemRecoilState from '../../recoil/itemRecoilState';
 
 const sauceData = [
   {
@@ -41,10 +44,38 @@ const sauceData = [
 ];
 
 export default function Index() {
+  const [itemState, setItemState] = useRecoilState(itemRecoilState);
+
+  const setItem = (arr, id) => {
+    if (arr.includes(id)) {
+      let filtered = arr.filter((element) => element !== id);
+      setItemState({ ...itemState, sauceId: filtered });
+    } else {
+      setItemState({
+        ...itemState,
+        sauceId: [...itemState.sauceId, id],
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log(itemState);
+  }, [itemState]);
+
   return (
     <MainGrid>
       {sauceData.map((sauce) => (
-        <Card key={sauce.id}>
+        <Card
+          key={sauce.id}
+          onClick={() => {
+            setItem(itemState.sauceId, sauce.id);
+          }}
+          cardCss={{
+            border: itemState.sauceId.includes(sauce.id)
+              ? '6px solid var(--green)'
+              : '',
+          }}
+        >
           <img
             src={sauce.img}
             alt={sauce.name}

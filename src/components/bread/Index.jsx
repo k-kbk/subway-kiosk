@@ -1,5 +1,9 @@
+import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
+import itemRecoilState from '../../recoil/itemRecoilState';
 
 const breadData = [
   {
@@ -41,10 +45,28 @@ const breadData = [
 ];
 
 export default function Index() {
+  const [itemState, setItemState] = useRecoilState(itemRecoilState);
+  const navigate = useNavigate();
+
+  /** 상태 확인용 */
+  useEffect(() => {
+    console.log(itemState);
+  }, [itemState]);
+
   return (
     <MainGrid>
       {breadData.map((bread) => (
-        <Card key={bread.id}>
+        <Card
+          key={bread.id}
+          onClick={() => {
+            setItemState({ ...itemState, breadId: bread.id });
+            navigate('/cheese');
+          }}
+          cardCss={{
+            border:
+              bread.id === itemState.breadId ? '6px solid var(--green)' : '',
+          }}
+        >
           <img
             src={bread.img}
             alt={bread.name}
