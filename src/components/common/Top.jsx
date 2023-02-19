@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import menuTypeState from '../../recoil/menu/index';
 import Home from '../../assets/home.svg';
 import Logo from '../../assets/logo_original.svg';
 import Step from './Step';
@@ -8,7 +10,7 @@ import Modal from './Modal';
 
 /** 단계 경로 및 내용 */
 const step = {
-  sandwich: [
+  0: [
     { number: 1, path: '/bread' },
     { number: 2, path: '/cheese' },
     { number: 3, path: '/vegetable' },
@@ -16,7 +18,7 @@ const step = {
     { number: 5, path: '/topping' },
     { number: 6, path: '/combo' },
   ],
-  salad: [
+  1: [
     { number: 1, path: '/cheese' },
     { number: 2, path: '/vegetable' },
     { number: 3, path: '/sauce' },
@@ -46,6 +48,7 @@ export default function Top() {
   function handleOpenModal() {
     setRenderModal(true);
   }
+  const menuType = useRecoilValue(menuTypeState);
 
   return (
     <>
@@ -53,7 +56,7 @@ export default function Top() {
         css={{
           width: '100%',
           height: '1.75rem',
-          top: '2.125rem',
+          top: '2.625rem',
           position: 'fixed',
           zIndex: '-10',
           backgroundColor: 'var(--green)',
@@ -97,7 +100,7 @@ export default function Top() {
               alignItems: 'center',
             }}
           >
-            {step['sandwich'].map((item) => (
+            {step[menuType].map((item) => (
               <Step key={item.number} active={curPath === item.path}>
                 {item.number}
               </Step>

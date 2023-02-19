@@ -1,10 +1,13 @@
 import { useLocation, Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { totalPriceState } from '../../recoil/order';
+import menuTypeState from '../../recoil/menu/index';
 import Left from '../../assets/left.svg';
 import Right from '../../assets/right.svg';
 
 /** 이전 버튼 경로 및 내용 */
 const prevBtn = {
-  sandwich: {
+  0: {
     '/bread': {
       to: '/menu',
       content: '메뉴',
@@ -28,12 +31,12 @@ const prevBtn = {
       to: '/menu',
       content: '메뉴',
     },
-    '/pay': {
+    '/payment': {
       to: '/cart',
       content: '장바구니',
     },
   },
-  salad: {
+  1: {
     '/cheese': {
       to: '/menu',
       content: '메뉴',
@@ -54,7 +57,7 @@ const prevBtn = {
       to: '/menu',
       content: '메뉴',
     },
-    '/pay': {
+    '/payment': {
       to: '/cart',
       content: '장바구니',
     },
@@ -62,7 +65,7 @@ const prevBtn = {
 };
 /** 다음 버튼 경로 및 내용 */
 const nextBtn = {
-  sandwich: {
+  0: {
     '/bread': {
       to: '/cheese',
     },
@@ -79,7 +82,7 @@ const nextBtn = {
       to: '/combo',
     },
   },
-  salad: {
+  1: {
     '/cheese': {
       to: '/vegetable',
     },
@@ -124,7 +127,7 @@ export default function Bottom() {
     curPath === '/topping' ||
     curPath === '/combo' ||
     curPath === '/cart' ||
-    curPath === '/pay';
+    curPath === '/payment';
   /** 다음 버튼 렌더링 여부 */
   const renderNextBtn =
     curPath === '/bread' ||
@@ -137,6 +140,9 @@ export default function Bottom() {
     curPath === '/menu' || curPath === '/cart' || curPath === '/combo';
   /** 현재 경로 일치 여부 */
   const isMenu = curPath === '/menu';
+  /** 총 금액 */
+  const totalPrice = useRecoilValue(totalPriceState);
+  const menuType = useRecoilValue(menuTypeState);
 
   return (
     <nav
@@ -157,7 +163,7 @@ export default function Bottom() {
     >
       {renderPrevBtn && (
         <Link
-          to={prevBtn['sandwich'][curPath].to}
+          to={prevBtn[menuType][curPath].to}
           css={{
             display: 'flex',
             justifyContent: 'center',
@@ -176,7 +182,7 @@ export default function Bottom() {
               margin: '0 0.5rem',
             }}
           />
-          {prevBtn['sandwich'][curPath].content ?? '이전'}
+          {prevBtn[menuType][curPath].content ?? '이전'}
         </Link>
       )}
       <div
@@ -188,11 +194,11 @@ export default function Bottom() {
           left: 'calc(50% - 6rem)',
         }}
       >
-        8,200원
+        {`${totalPrice}원`}
       </div>
       {renderNextBtn && (
         <Link
-          to={nextBtn['sandwich'][curPath].to}
+          to={nextBtn[menuType][curPath].to}
           css={{
             display: 'flex',
             justifyContent: 'center',

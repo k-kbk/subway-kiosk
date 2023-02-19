@@ -1,53 +1,20 @@
+import { useQueryClient } from '@tanstack/react-query';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
 
-const breadData = [
-  {
-    id: 1,
-    nameKR: '위트',
-    nameEN: 'Wheat',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_b03.jpg',
-  },
-  {
-    id: 2,
-    nameKR: '허니 오트',
-    nameEN: 'Honey Oat',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_b01.jpg',
-  },
-  {
-    id: 3,
-    nameKR: '화이트',
-    nameEN: 'White',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_b05.jpg',
-  },
-  {
-    id: 4,
-    nameKR: '하티',
-    nameEN: 'Hearty Italian',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_b02.jpg',
-  },
-  {
-    id: 5,
-    nameKR: '파마산 오레가노',
-    nameEN: 'Parmesan Oregano',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_b04.jpg',
-  },
-  {
-    id: 6,
-    nameKR: '플랫 브레드',
-    nameEN: 'Flat Bread',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_b06.jpg',
-  },
-];
-
 export default function Index() {
+  const queryClient = useQueryClient();
+  /** 프리페칭 데이터 */
+  const prefetchData = queryClient.getQueryData(['bread']);
+  const breadData = prefetchData.data;
+
   return (
     <MainGrid>
       {breadData.map((bread) => (
-        <Card key={bread.id}>
+        <Card key={bread.bread_id}>
           <img
-            src={bread.img}
-            alt={bread.name}
+            src={bread.bread_img}
+            alt={bread.bread_name_kr}
             css={{
               width: '14rem',
             }}
@@ -67,7 +34,7 @@ export default function Index() {
                 fontWeight: 700,
               }}
             >
-              {bread.nameKR}
+              {bread.bread_name_kr}
             </p>
             <p
               css={{
@@ -76,7 +43,7 @@ export default function Index() {
                 fontWeight: 500,
               }}
             >
-              {bread.nameEN}
+              {bread.bread_name_en}
             </p>
           </div>
         </Card>

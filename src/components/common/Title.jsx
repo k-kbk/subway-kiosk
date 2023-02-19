@@ -1,4 +1,6 @@
 import { useLocation } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import menuTypeState from '../../recoil/menu/index';
 
 export default function Title({ children }) {
   /** 현재 페이지에 대한 정보 */
@@ -7,40 +9,8 @@ export default function Title({ children }) {
   const curPath = location.pathname;
   /** 메뉴 버튼 렌더링 여부 */
   const renderMenuBtn = curPath === '/menu';
-
+  const [menuType, setMenuType] = useRecoilState(menuTypeState);
   return (
-    // <div
-    //   css={{
-    //     fontSize: '2.5rem',
-    //     fontWeight: 700,
-    //     width: '100%',
-    //     height: '4rem',
-    //     display: 'flex',
-    //     flexBasis: '100%',
-    //     alignItems: 'center',
-    //     paddingBottom: '1rem',
-    //     backgroundColor: 'var(--white)',
-    //     '&:before': {
-    //       content: '""',
-    //       fontSize: 0,
-    //       width: '8rem',
-    //       height: '0.375rem',
-    //       marginRight: '2rem',
-    //       backgroundColor: 'var(--yellow)',
-    //     },
-    //     '&:after': {
-    //       content: '""',
-    //       fontSize: 0,
-    //       lineHeight: 0,
-    //       height: '0.375rem',
-    //       flexGrow: 1,
-    //       marginLeft: '2rem',
-    //       backgroundColor: 'var(--yellow)',
-    //     },
-    //   }}
-    // >
-    //   {children}
-    // </div>
     <div
       css={{
         width: '100%',
@@ -80,38 +50,42 @@ export default function Title({ children }) {
           <button
             type="button"
             css={{
+              color: menuType ? 'var(--black)' : 'var(--white)',
               fontSize: '1.25rem',
               fontWeight: 700,
               width: '10rem',
               padding: '0.5rem 0',
               marginTop: '2.875rem',
-              backgroundColor: 'var(--yellow)',
-              border: '1px solid var(--yellow)',
+              backgroundColor: menuType ? 'var(--yellow)' : 'var(--green)',
+              border: menuType ? 'var(--yellow)' : 'var(--green)',
               borderBottomLeftRadius: '12px',
               borderBottomRightRadius: '12px',
               '&:hover': {
                 opacity: '50%',
               },
             }}
+            onClick={() => setMenuType(0)}
           >
             샌드위치
           </button>
           <button
             type="button"
             css={{
+              color: menuType ? 'var(--white)' : 'var(--black)',
               fontSize: '1.25rem',
               fontWeight: 700,
               width: '10rem',
               padding: '0.5rem 0',
               marginTop: '2.875rem',
-              backgroundColor: 'var(--yellow)',
-              border: '1px solid var(--yellow)',
+              backgroundColor: menuType ? 'var(--green)' : 'var(--yellow)',
+              border: menuType ? 'var(--yellow)' : 'var(--green)',
               borderBottomLeftRadius: '12px',
               borderBottomRightRadius: '12px',
               '&:hover': {
                 opacity: '50%',
               },
             }}
+            onClick={() => setMenuType(1)}
           >
             샐러드
           </button>

@@ -1,53 +1,33 @@
+import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { getSauce } from '../../api/index';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
 
-const vegetableData = [
-  {
-    id: 1,
-    nameKR: '양상추',
-    nameEN: 'Lettuce',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_v01.jpg',
-  },
-  {
-    id: 2,
-    nameKR: '토마토',
-    nameEN: 'Tomatoes',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_v02.jpg',
-  },
-  {
-    id: 3,
-    nameKR: '오이',
-    nameEN: 'Cucumbers',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_v03.jpg',
-  },
-  {
-    id: 4,
-    nameKR: '피망',
-    nameEN: 'Peppers',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_v04.jpg',
-  },
-  {
-    id: 5,
-    nameKR: '양파',
-    nameEN: 'Red Onions',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_v05.jpg',
-  },
-  {
-    id: 6,
-    nameKR: '피클',
-    nameEN: 'Pickles',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_v06.jpg',
-  },
-];
-
 export default function Index() {
+  const queryClient = useQueryClient();
+
+  const prefetchSauce = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: ['sauce'],
+      queryFn: getSauce,
+    });
+  };
+  useEffect(() => {
+    prefetchSauce();
+  }, []);
+
+  /** 프리페칭 데이터 */
+  const prefetchData = queryClient.getQueryData(['vegetable']);
+  const vegetableData = prefetchData.data;
+
   return (
     <MainGrid>
       {vegetableData.map((vegetable) => (
-        <Card key={vegetable.id}>
+        <Card key={vegetable.vegetable_id}>
           <img
-            src={vegetable.img}
-            alt={vegetable.name}
+            src={vegetable.vegetable_img}
+            alt={vegetable.vegetable_name_kr}
             css={{
               width: '14rem',
             }}
@@ -68,7 +48,7 @@ export default function Index() {
                 fontWeight: 700,
               }}
             >
-              {vegetable.nameKR}
+              {vegetable.vegetable_name_kr}
             </p>
             <p
               css={{
@@ -77,7 +57,7 @@ export default function Index() {
                 fontWeight: 500,
               }}
             >
-              {vegetable.nameEN}
+              {vegetable.vegetable_name_en}
             </p>
           </div>
         </Card>

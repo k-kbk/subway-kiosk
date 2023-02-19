@@ -1,236 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { useQueryClient } from '@tanstack/react-query';
+import { getBread, getCheese } from '../../api/index';
+import menuTypeState from '../../recoil/menu/index';
+import divide from '../../utils/divide';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
 import ModalPortal from '../common/ModalPortal';
 import SandwichModal from '../common/SandwichModal';
 
-/** 메뉴 더미 데이터 */
-const menuData = {
-  sandwich: [
-    {
-      id: 1,
-      nameKR: '에그마요',
-      nameEN: 'Egg Mayo',
-      price15: 4900,
-      price30: 9400,
-      kcal: 416,
-      img: 'https://www.subway.co.kr/upload/menu/Egg-Mayo_20211231094817112.png',
-    },
-    {
-      id: 2,
-      nameKR: '햄',
-      nameEN: 'Ham',
-      price15: 5200,
-      price30: 9900,
-      kcal: 262,
-      img: 'https://www.subway.co.kr/upload/menu/Ham_20211231094833168.png',
-    },
-    {
-      id: 3,
-      nameKR: '참치',
-      nameEN: 'Tuna',
-      price15: 5200,
-      price30: 9900,
-      kcal: 316,
-      img: 'https://www.subway.co.kr/upload/menu/Tuna_20211231095535268.png',
-    },
-    {
-      id: 4,
-      nameKR: '비엘티',
-      nameEN: 'B.L.T.',
-      price15: 6000,
-      price30: 11200,
-      kcal: 300,
-      img: 'https://www.subway.co.kr/upload/menu/B.L.T_20211231094744175.png',
-    },
-    {
-      id: 5,
-      nameKR: '에그마요',
-      nameEN: 'Egg Mayo',
-      price15: 4900,
-      price30: 9400,
-      kcal: 416,
-      img: 'https://www.subway.co.kr/upload/menu/Egg-Mayo_20211231094817112.png',
-    },
-    {
-      id: 6,
-      nameKR: '햄',
-      nameEN: 'Ham',
-      price15: 5200,
-      price30: 9900,
-      kcal: 262,
-      img: 'https://www.subway.co.kr/upload/menu/Ham_20211231094833168.png',
-    },
-    {
-      id: 7,
-      nameKR: '참치',
-      nameEN: 'Tuna',
-      price15: 5200,
-      price30: 9900,
-      kcal: 316,
-      img: 'https://www.subway.co.kr/upload/menu/Tuna_20211231095535268.png',
-    },
-    {
-      id: 8,
-      nameKR: '비엘티',
-      nameEN: 'B.L.T.',
-      price15: 6000,
-      price30: 11200,
-      kcal: 300,
-      img: 'https://www.subway.co.kr/upload/menu/B.L.T_20211231094744175.png',
-    },
-    {
-      id: 9,
-      nameKR: '에그마요',
-      nameEN: 'Egg Mayo',
-      price15: 4900,
-      price30: 9400,
-      kcal: 416,
-      img: 'https://www.subway.co.kr/upload/menu/Egg-Mayo_20211231094817112.png',
-    },
-    {
-      id: 10,
-      nameKR: '햄',
-      nameEN: 'Ham',
-      price15: 5200,
-      price30: 9900,
-      kcal: 262,
-      img: 'https://www.subway.co.kr/upload/menu/Ham_20211231094833168.png',
-    },
-    {
-      id: 11,
-      nameKR: '참치',
-      nameEN: 'Tuna',
-      price15: 5200,
-      price30: 9900,
-      kcal: 316,
-      img: 'https://www.subway.co.kr/upload/menu/Tuna_20211231095535268.png',
-    },
-    {
-      id: 12,
-      nameKR: '비엘티',
-      nameEN: 'B.L.T.',
-      price15: 6000,
-      price30: 11200,
-      kcal: 300,
-      img: 'https://www.subway.co.kr/upload/menu/B.L.T_20211231094744175.png',
-    },
-  ],
-  salad: [
-    {
-      id: 1,
-      nameKR: '에그마요',
-      nameEN: 'Egg Mayo',
-      price: 6600,
-      kcal: 254,
-      img: 'https://www.subway.co.kr/upload/menu/%EC%97%90%EA%B7%B8%EB%A7%88%EC%9A%94_20220413025402885.png',
-    },
-    {
-      id: 2,
-      nameKR: '햄',
-      nameEN: 'Ham',
-      price: 6900,
-      kcal: 99.5,
-      img: 'https://www.subway.co.kr/upload/menu/%ED%96%84_20220413025435077.png',
-    },
-    {
-      id: 3,
-      nameKR: '참치',
-      nameEN: 'Tuna',
-      price: 6900,
-      kcal: 153,
-      img: 'https://www.subway.co.kr/upload/menu/%EC%B0%B8%EC%B9%98_20220413025420234.png',
-    },
-    {
-      id: 4,
-      nameKR: '비엘티',
-      nameEN: 'B.L.T.',
-      price: 7700,
-      kcal: 153,
-      img: 'https://www.subway.co.kr/upload/menu/BLT_20220413025509426.png',
-    },
-    {
-      id: 5,
-      nameKR: '에그마요',
-      nameEN: 'Egg Mayo',
-      price: 6600,
-      kcal: 254,
-      img: 'https://www.subway.co.kr/upload/menu/%EC%97%90%EA%B7%B8%EB%A7%88%EC%9A%94_20220413025402885.png',
-    },
-    {
-      id: 6,
-      nameKR: '햄',
-      nameEN: 'Ham',
-      price: 6900,
-      kcal: 99.5,
-      img: 'https://www.subway.co.kr/upload/menu/%ED%96%84_20220413025435077.png',
-    },
-    {
-      id: 7,
-      nameKR: '참치',
-      nameEN: 'Tuna',
-      price: 6900,
-      kcal: 153,
-      img: 'https://www.subway.co.kr/upload/menu/%EC%B0%B8%EC%B9%98_20220413025420234.png',
-    },
-    {
-      id: 8,
-      nameKR: '비엘티',
-      nameEN: 'B.L.T.',
-      price: 7700,
-      kcal: 153,
-      img: 'https://www.subway.co.kr/upload/menu/BLT_20220413025509426.png',
-    },
-    {
-      id: 9,
-      nameKR: '에그마요',
-      nameEN: 'Egg Mayo',
-      price: 6600,
-      kcal: 254,
-      img: 'https://www.subway.co.kr/upload/menu/%EC%97%90%EA%B7%B8%EB%A7%88%EC%9A%94_20220413025402885.png',
-    },
-    {
-      id: 10,
-      nameKR: '햄',
-      nameEN: 'Ham',
-      price: 6900,
-      kcal: 99.5,
-      img: 'https://www.subway.co.kr/upload/menu/%ED%96%84_20220413025435077.png',
-    },
-    {
-      id: 11,
-      nameKR: '참치',
-      nameEN: 'Tuna',
-      price: 6900,
-      kcal: 153,
-      img: 'https://www.subway.co.kr/upload/menu/%EC%B0%B8%EC%B9%98_20220413025420234.png',
-    },
-    {
-      id: 12,
-      nameKR: '비엘티',
-      nameEN: 'B.L.T.',
-      price: 7700,
-      kcal: 153,
-      img: 'https://www.subway.co.kr/upload/menu/BLT_20220413025509426.png',
-    },
-  ],
-};
-
 export default function Index() {
   const [renderModal, setRenderModal] = useState(false);
-  const [modalMenu, setModalMenu] = useState({});
-  const [menuType, setMenuType] = useState('sandwich');
+  const [modalMenu, setModalMenu] = useState([]);
+  const menuType = useRecoilValue(menuTypeState);
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const prefetchBreadCheese = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: ['bread'],
+      queryFn: getBread,
+    });
+    await queryClient.prefetchQuery({
+      queryKey: ['cheese'],
+      queryFn: getCheese,
+    });
+  };
+  useEffect(() => {
+    prefetchBreadCheese();
+  }, []);
+
+  /** 프리페칭 데이터 */
+  const { data: sandwichData } = queryClient.getQueryData(['sandwich']);
+  const { data: saladData } = queryClient.getQueryData(['salad']);
+  const menuData = {
+    0: divide(sandwichData),
+    1: saladData,
+  };
+
   /** 모달창 열기 */
-  function handleOpenModal(menu) {
-    if (menuType === 'sandwich') {
+  function handleClickMenu(menu) {
+    if (menuType) {
+      navigate('/cheese');
+    } else {
       setModalMenu(menu);
       setRenderModal(true);
-      return;
-    }
-    if (menuType === 'salad') {
-      navigate('/cheese');
     }
   }
 
@@ -243,13 +58,16 @@ export default function Index() {
       }}
     >
       {menuData[menuType].map((menu) => (
-        <Card key={menu.id} onClick={() => handleOpenModal(menu)}>
+        <Card
+          key={menuType ? menu.menu_id : menu[0].menu_id}
+          onClick={() => handleClickMenu(menu)}
+        >
           <img
-            src={menu.img}
-            alt={menu.nameKR}
+            src={menuType ? menu.menu_img : menu[0].menu_img}
+            alt={menuType ? menu.menu_name_kr : menu[0].menu_name_kr}
             css={{
-              width: '14rem',
-              margin: '-1.5rem 0 -0.75rem 0',
+              width: '13rem',
+              margin: '-0.5rem 0 0 0',
             }}
           />
           <div
@@ -267,7 +85,7 @@ export default function Index() {
                 fontWeight: 700,
               }}
             >
-              {menu.nameKR}
+              {menuType ? menu.menu_name_kr : menu[0].menu_name_kr}
             </p>
             <p
               css={{
@@ -276,7 +94,7 @@ export default function Index() {
                 fontWeight: 500,
               }}
             >
-              {menu.nameEN}
+              {menuType ? menu.menu_name_en : menu[0].menu_name_en}
             </p>
           </div>
           <p
@@ -287,11 +105,7 @@ export default function Index() {
               marginTop: '0.5rem',
             }}
           >
-            {`${
-              menuType === 'sandwich'
-                ? menu.price15.toLocaleString()
-                : menu.price.toLocaleString()
-            }원`}
+            {`${menuType ? menu.menu_price : menu[0].menu_price}원`}
           </p>
           <p
             css={{
@@ -299,7 +113,7 @@ export default function Index() {
               fontWeight: 700,
             }}
           >
-            {`${menu.kcal}kcal`}
+            {`${menuType ? menu.menu_kcal : menu[0].menu_kcal}kcal`}
           </p>
         </Card>
       ))}
@@ -307,12 +121,12 @@ export default function Index() {
         <ModalPortal>
           <SandwichModal
             setRenderModal={setRenderModal}
-            img={modalMenu.img}
-            kcal={modalMenu.kcal}
-            nameKR={modalMenu.nameKR}
-            nameEN={modalMenu.nameEN}
-            price15={modalMenu.price15}
-            price30={modalMenu.price30}
+            img={modalMenu[0].menu_img}
+            kcal={modalMenu[0].menu_kcal}
+            nameKR={modalMenu[0].menu_name_kr}
+            nameEN={modalMenu[0].menu_name_en}
+            price15={modalMenu[0].menu_price}
+            price30={modalMenu[1].menu_price}
           />
         </ModalPortal>
       )}

@@ -119,6 +119,8 @@ export default function SandwichModal({
                   selectedSize === '15cm' ? 'var(--green)' : '#f7f7f7',
                 borderRadius: 12,
                 filter: 'var(--dropShadow)',
+                // boxShadow:
+                //   '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
               }}
               onClick={handleSelectSize}
             >
@@ -151,6 +153,8 @@ export default function SandwichModal({
                   selectedSize === '30cm' ? 'var(--green)' : '#f7f7f7',
                 borderRadius: 12,
                 filter: 'var(--dropShadow)',
+                // boxShadow:
+                //   '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
               }}
               onClick={handleSelectSize}
             >
