@@ -1,5 +1,8 @@
+import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
+import itemRecoilState from '../../recoil/itemRecoilState';
 
 const toppingData = [
   {
@@ -41,10 +44,38 @@ const toppingData = [
 ];
 
 export default function Index() {
+  const [itemState, setItemState] = useRecoilState(itemRecoilState);
+
+  useEffect(() => {
+    console.log(itemState);
+  }, [itemState]);
+
+  const setItem = (arr, id) => {
+    if (arr.includes(id)) {
+      let filtered = arr.filter((element) => element !== id);
+      setItemState({ ...itemState, toppingId: filtered });
+    } else {
+      setItemState({
+        ...itemState,
+        toppingId: [...itemState.toppingId, id],
+      });
+    }
+  };
+
   return (
     <MainGrid>
       {toppingData.map((topping) => (
-        <Card key={topping.id}>
+        <Card
+          key={topping.id}
+          onClick={() => {
+            setItem(itemState.toppingId, topping.id);
+          }}
+          cardCss={{
+            border: itemState.toppingId.includes(topping.id)
+              ? '6px solid var(--green)'
+              : '',
+          }}
+        >
           <img
             src={topping.img}
             alt={topping.name}

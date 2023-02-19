@@ -307,6 +307,7 @@ export default function Index() {
         <ModalPortal>
           <SandwichModal
             setRenderModal={setRenderModal}
+            id={modalMenu.id}
             img={modalMenu.img}
             kcal={modalMenu.kcal}
             nameKR={modalMenu.nameKR}
