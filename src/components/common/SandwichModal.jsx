@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
+import itemRecoilState from '../../recoil/itemRecoilState';
 
 export default function SandwichModal({
   setRenderModal,
+  id,
   img,
   kcal,
   nameKR,
@@ -19,6 +22,11 @@ export default function SandwichModal({
   function handleCloseModal() {
     setRenderModal(false);
   }
+  const [itemState, setItemState] = useRecoilState(itemRecoilState);
+
+  useEffect(() => {
+    console.log(itemState);
+  }, [itemState]);
 
   return (
     <div
@@ -211,6 +219,15 @@ export default function SandwichModal({
               '&:hover': {
                 opacity: '50%',
               },
+            }}
+            onClick={() => {
+              setItemState({
+                ...itemState,
+                count: 1,
+                menuId: id,
+                price: selectedSize === '15cm' ? price15 : price30,
+                currentPrice: selectedSize === '15cm' ? price15 : price30,
+              });
             }}
           >
             다음

@@ -1,6 +1,9 @@
+import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRecoilState } from 'recoil';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
+import itemRecoilState from '../../recoil/itemRecoilState';
 
 export default function Index() {
   const queryClient = useQueryClient();
