@@ -1,32 +1,28 @@
-import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { getVegetable } from '../../api/index';
+import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
 import itemRecoilState from '../../recoil/itemRecoilState';
 
-const cheeseData = [
-  {
-    id: 1,
-    nameKR: '아메리칸 치즈',
-    nameEN: 'American Cheese',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_c01.jpg',
-  },
-  {
-    id: 2,
-    nameKR: '슈레드 치즈',
-    nameEN: 'Shredded Cheese',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_c02.jpg',
-  },
-  {
-    id: 3,
-    nameKR: '모차렐라 치즈',
-    nameEN: 'Mozzarella Cheese',
-    img: 'https://www.subway.co.kr/images/menu/img_recipe_c03.jpg',
-  },
-];
-
 export default function Index() {
+  const queryClient = useQueryClient();
+
+  const prefetchVegetable = async () => {
+    await queryClient.prefetchQuery({
+      queryKey: ['vegetable'],
+      queryFn: getVegetable,
+    });
+  };
+  useEffect(() => {
+    prefetchVegetable();
+  }, []);
+
+  /** 프리페칭 데이터 */
+  const prefetchData = queryClient.getQueryData(['cheese']);
+  const cheeseData = prefetchData.data;
   const [itemState, setItemState] = useRecoilState(itemRecoilState);
   const navigate = useNavigate();
 
@@ -43,7 +39,7 @@ export default function Index() {
     >
       {cheeseData.map((cheese) => (
         <Card
-          key={cheese.id}
+          key={cheese.cheese_id}
           css={{
             margin: '10rem',
           }}
@@ -57,8 +53,8 @@ export default function Index() {
           }}
         >
           <img
-            src={cheese.img}
-            alt={cheese.name}
+            src={cheese.cheese_img}
+            alt={cheese.cheese_name_kr}
             css={{
               width: '14rem',
             }}
@@ -79,7 +75,7 @@ export default function Index() {
                 fontWeight: 700,
               }}
             >
-              {cheese.nameKR}
+              {cheese.cheese_name_kr}
             </p>
             <p
               css={{
@@ -88,7 +84,7 @@ export default function Index() {
                 fontWeight: 500,
               }}
             >
-              {cheese.nameEN}
+              {cheese.cheese_name_en}
             </p>
           </div>
         </Card>

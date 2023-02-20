@@ -7,7 +7,13 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 const client = new QueryClient({
-  defaultOptions: {},
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+      refetchOnWindowFocus: false,
+    },
+  },
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -16,7 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <App />
       </BrowserRouter>
-      {/* <ReactQueryDevtools /> */}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   </RecoilRoot>,
 );

@@ -28,7 +28,7 @@ export default function Header() {
       css={{
         width: '100%',
         height: 'auto',
-        paddingTop: '0.5rem',
+        paddingTop: '1rem',
         position: 'fixed',
         zIndex: 50,
         backgroundColor: 'var(--white)',

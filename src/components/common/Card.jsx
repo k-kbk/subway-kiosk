@@ -1,6 +1,6 @@
 export default function Card({
   width = '18rem',
-  height = '17rem',
+  height = '18rem',
   onClick,
   children,
   cardCss,
@@ -18,6 +18,7 @@ export default function Card({
         alignItems: 'center',
         margin: '1rem 0',
         backgroundColor: 'var(--white)',
+        filter: 'var(--dropShadow)',
         borderRadius: '12px',
         cursor: 'pointer',
         '&:hover': {
