@@ -18,7 +18,7 @@ export default function Title({ children }) {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '0 0 0.875rem 0',
+        padding: '0 0 1.25rem 0',
       }}
     >
       <div
@@ -76,7 +76,7 @@ export default function Title({ children }) {
               fontWeight: 700,
               width: '10rem',
               padding: '0.5rem 0',
-              marginTop: '2.875rem',
+              marginTop: '3.25rem',
               backgroundColor: menuType ? 'var(--green)' : 'var(--yellow)',
               border: menuType ? 'var(--yellow)' : 'var(--green)',
               borderBottomLeftRadius: '12px',

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { placeState } from '../../recoil/order';
 import { getSandwich, getSalad } from '../../api/index';
 import Logo from '../../assets/logo_original.svg';
@@ -12,6 +12,12 @@ export default function Index() {
   const setPlace = useSetRecoilState(placeState);
   const queryClient = useQueryClient();
 
+  useQuery(['sandwich'], getSandwich, {
+    select(data) {
+      const sandwichData = divide(data.data);
+      return sandwichData;
+    },
+  });
   const prefetchMenu = async () => {
     await queryClient.prefetchQuery({
       queryKey: ['sandwich'],
@@ -87,7 +93,7 @@ export default function Index() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'rgb(255, 188, 20)',
+            backgroundColor: 'rgba(255, 188, 20, 0.95)',
             padding: '1.5rem 0 1.5rem 2rem',
           }}
         >

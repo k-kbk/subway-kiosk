@@ -1,6 +1,7 @@
 import CartItem from './CartItem';
 import { useRecoilValue } from 'recoil';
 import cartKRState from '../../recoil/cart';
+import LogoCompact from '../../assets/logo_compact.svg';
 
 export default function Index() {
   const cartKR = useRecoilValue(cartKRState);
@@ -18,7 +19,7 @@ export default function Index() {
         backgroundColor: 'var(--lightGray)',
       }}
     >
-      {cartKR ? (
+      {cartKR.length ? (
         cartKR.map((item, index) => (
           <CartItem
             key={index}
@@ -35,7 +36,28 @@ export default function Index() {
           />
         ))
       ) : (
-        <p>empty</p>
+        <div
+          css={{
+            fontSize: '1.75rem',
+            fontWeight: 600,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: '2rem',
+          }}
+        >
+          <img
+            src={LogoCompact}
+            alt="empty"
+            css={{
+              width: '8rem',
+              opacity: '50%',
+              margin: '0 0 3rem 0',
+            }}
+          />
+          담긴 상품이 없습니다
+        </div>
       )}
     </div>
   );
