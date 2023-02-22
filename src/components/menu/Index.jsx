@@ -126,17 +126,21 @@ export default function Index() {
               color: 'var(--green)',
               fontSize: '1.5rem',
               fontWeight: 700,
-              lineHeight: 1.1,
+              lineHeight: 1.2,
               marginTop: '0.5rem',
             }}
           >
-            {`${menuType ? menu.menu_price : menu[0].menu_price}원`}
+            {`${
+              menuType
+                ? menu.menu_price.toLocaleString()
+                : menu[0].menu_price.toLocaleString()
+            }원`}
           </p>
           <p
             css={{
               color: 'var(--yellow)',
               fontWeight: 700,
-              lineHeight: 1.1,
+              lineHeight: 1.2,
             }}
           >
             {`${menuType ? menu.menu_kcal : menu[0].menu_kcal}kcal`}

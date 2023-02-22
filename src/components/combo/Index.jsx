@@ -76,6 +76,19 @@ export default function Index() {
             >
               {combo.combo_name_en}
             </p>
+            {combo.combo_id !== 1 && (
+              <p
+                css={{
+                  color: 'var(--green)',
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
+                  lineHeight: 1.2,
+                  marginTop: '0.5rem',
+                }}
+              >
+                {`+${combo.combo_price.toLocaleString()}원`}
+              </p>
+            )}
           </div>
         </Card>
       ))}

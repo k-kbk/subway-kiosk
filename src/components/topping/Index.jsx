@@ -131,6 +131,19 @@ export default function Index() {
             >
               {topping.topping_name_en}
             </p>
+            {topping.topping_id !== 0 && (
+              <p
+                css={{
+                  color: 'var(--green)',
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
+                  lineHeight: 1.2,
+                  marginTop: '0.5rem',
+                }}
+              >
+                {`+${topping.topping_price.toLocaleString()}원`}
+              </p>
+            )}
           </div>
         </Card>
       ))}
