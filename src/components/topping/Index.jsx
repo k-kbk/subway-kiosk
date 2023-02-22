@@ -2,9 +2,13 @@ import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getCombo } from '../../api/index';
 import { useRecoilState } from 'recoil';
+import {
+  currentOrderState,
+  currentOrderKRState,
+} from '../../recoil/current/index';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
-import itemRecoilState from '../../recoil/itemRecoilState';
+import None from '../../assets/none.svg';
 
 export default function Index() {
   const queryClient = useQueryClient();
@@ -22,41 +26,79 @@ export default function Index() {
   /** 프리페칭 데이터 */
   const prefetchData = queryClient.getQueryData(['topping']);
   const toppingData = prefetchData.data;
-  const [itemState, setItemState] = useRecoilState(itemRecoilState);
+  const [currentOrder, setCurrentOrder] = useRecoilState(currentOrderState);
+  const [currentOrderKR, setCurrentOrderKR] =
+    useRecoilState(currentOrderKRState);
 
-  useEffect(() => {
-    console.log(itemState);
-  }, [itemState]);
-
-  const setItem = (arr, id) => {
-    if (arr.includes(id)) {
-      let filtered = arr.filter((element) => element !== id);
-      setItemState({ ...itemState, toppingId: filtered });
+  const setItem = (id, name_kr, price) => {
+    if (currentOrder.toppingId.includes(id)) {
+      let filtered = currentOrder.toppingId.filter((element) => element !== id);
+      setCurrentOrder({
+        ...currentOrder,
+        toppingId: filtered,
+        price: currentOrder.price - price,
+      });
+      let filteredKR = currentOrderKR.topping.filter(
+        (element) => element !== name_kr,
+      );
+      setCurrentOrderKR({ ...currentOrderKR, topping: filteredKR });
     } else {
-      setItemState({
-        ...itemState,
-        toppingId: [...itemState.toppingId, id],
+      setCurrentOrder({
+        ...currentOrder,
+        toppingId: [...currentOrder.toppingId, id],
+        price: currentOrder.price + price,
+      });
+      setCurrentOrderKR({
+        ...currentOrderKR,
+        topping: [...currentOrderKR.topping, name_kr],
       });
     }
   };
+  useEffect(() => {
+    console.log(currentOrder);
+    console.log(currentOrderKR);
+  }, [currentOrder]);
 
   return (
     <MainGrid>
       {toppingData.map((topping) => (
-        <Card key={topping.topping_id}>
         <Card
           key={topping.topping_id}
           onClick={() => {
-            setItem(itemState.toppingId, topping.topping_id);
+            if (currentOrder.toppingId.length === 0) {
+              setItem(
+                topping.topping_id,
+                topping.topping_name_kr,
+                topping.topping_price,
+              );
+            } else {
+              if (currentOrder.toppingId.indexOf(0) === 0) {
+                if (topping.topping_id === 0) {
+                  setItem(
+                    topping.topping_id,
+                    topping.topping_name_kr,
+                    topping.topping_price,
+                  );
+                }
+              } else {
+                if (topping.topping_id !== 0) {
+                  setItem(
+                    topping.topping_id,
+                    topping.topping_name_kr,
+                    topping.topping_price,
+                  );
+                }
+              }
+            }
           }}
           cardCss={{
-            border: itemState.toppingId.includes(topping.topping_id)
+            border: currentOrder.toppingId.includes(topping.topping_id)
               ? '6px solid var(--green)'
               : '',
           }}
         >
           <img
-            src={topping.topping_img}
+            src={topping.topping_img ? topping.topping_img : None}
             alt={topping.topping_name_kr}
             css={{
               width: '14rem',

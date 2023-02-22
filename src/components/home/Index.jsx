@@ -11,12 +11,7 @@ export default function Index() {
   const navigate = useNavigate();
   const setPlace = useSetRecoilState(placeState);
   const queryClient = useQueryClient();
-  // useQuery(['sandwich'], getSandwich, {
-  //   select(data) {
-  //     const sandwichData = divide(data.data);
-  //     return sandwichData;
-  //   },
-  // });
+
   const prefetchMenu = async () => {
     await queryClient.prefetchQuery({
       queryKey: ['sandwich'],
@@ -43,109 +38,122 @@ export default function Index() {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'start',
         backgroundColor: 'var(--lightGray)',
-        borderTop: '1.5rem solid var(--green)',
-        borderBottom: '1.5rem solid var(--green)',
+        borderTop: '8px solid var(--green)',
+        borderBottom: '8px solid var(--green)',
       }}
     >
       <div
         css={{
           width: '100%',
-          height: '18%',
+          height: '25%',
           display: 'flex',
+          justifyContent: 'center',
           alignItems: 'center',
         }}
       >
         <img
           src={Logo}
           css={{
-            width: '20rem',
+            width: '18rem',
             filter: 'var(--dropShadow)',
-            margin: '1rem 5rem',
+            margin: '0 0 1rem 0',
           }}
           alt="logo"
         />
-        <div
+        {/* <div
           css={{
             width: '100%',
             height: '16px',
             backgroundColor: 'var(--yellow)',
           }}
-        />
+        /> */}
       </div>
       <div
         css={{
           width: '100%',
-          height: '45%',
+          height: '70%',
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: 'DarkGray',
         }}
       >
-        <img src={Banner} css={{ height: '88%' }} alt="banner" />
-      </div>
-      <div
-        css={{
-          width: '100%',
-          height: '30%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: '1.25rem 0',
-        }}
-      >
-        <button
-          type="button"
-          value={1}
-          onClick={handleClickPlace}
+        <div
           css={{
-            color: 'var(--white)',
-            fontSize: '2rem',
-            fontWeight: 700,
-            width: '28rem',
-            height: '6rem',
+            width: '100%',
+            height: '80%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'var(--green)',
-            borderRadius: '12px',
-            // filter: 'var(--dropShadow)',
-            boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.3)',
-            margin: '0 4rem',
-            '&:hover': {
-              opacity: '50%',
-            },
+            backgroundColor: 'rgb(255, 188, 20)',
+            padding: '1.5rem 0 1.5rem 2rem',
           }}
         >
-          매장에서 식사
-        </button>
-        <button
-          type="button"
-          value={2}
-          onClick={handleClickPlace}
+          <img
+            src={Banner}
+            css={{ height: '100%', marginBottom: '1rem' }}
+            alt="banner"
+          />
+        </div>
+        <div
           css={{
-            color: 'var(--white)',
-            fontSize: '2rem',
-            fontWeight: 700,
-            width: '28rem',
-            height: '6rem',
+            width: '100%',
+            height: '30%',
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'var(--green)',
-            borderRadius: '12px',
-            // filter: 'var(--dropShadow)',
-            boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.3)',
-            margin: '0 4rem',
-            '&:hover': {
-              opacity: '50%',
-            },
+            justifyContent: 'end',
+            alignItems: 'start',
+            margin: '-2rem 10rem 0 0',
           }}
         >
-          포장하기
-        </button>
+          <button
+            type="button"
+            value={1}
+            onClick={handleClickPlace}
+            css={{
+              color: 'var(--black)',
+              fontSize: '1.75rem',
+              fontWeight: 800,
+              width: '22rem',
+              height: '5.5rem',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgb(255, 206, 50)',
+              borderTopLeftRadius: '12px',
+              borderBottomLeftRadius: '12px',
+              filter: 'var(--dropShadow)',
+              // '&:hover': {
+              // },
+            }}
+          >
+            매장에서 식사
+          </button>
+          <button
+            type="button"
+            value={2}
+            onClick={handleClickPlace}
+            css={{
+              color: 'var(--white)',
+              fontSize: '1.75rem',
+              fontWeight: 800,
+              width: '22rem',
+              height: '5.5rem',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgb(0, 146, 35)',
+              borderTopRightRadius: '12px',
+              borderBottomRightRadius: '12px',
+              filter: 'var(--dropShadow)',
+              // '&:hover': {
+              // },
+            }}
+          >
+            테이크 아웃
+          </button>
+        </div>
       </div>
     </div>
   );

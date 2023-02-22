@@ -1,24 +1,65 @@
 import { useState } from 'react';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { orderState } from '../../recoil/order';
+import cartKRState from '../../recoil/cart';
+import menuTypeState from '../../recoil/menu';
 import Cancel from '../../assets/cancel.svg';
 
 export default function CartItem({
+  index,
+  img,
   menu,
+  combo,
   bread,
   cheese,
   vegetable,
   sauce,
   topping,
-  price,
+  size,
 }) {
+  const menuType = useRecoilValue(menuTypeState);
+  const [order, setOrder] = useRecoilState(orderState);
+  const [cartKR, setCartKR] = useRecoilState(cartKRState);
   const [number, setNumber] = useState(1);
 
+  const { orderItems } = order;
+  const item = orderItems[index];
+  console.log(orderItems);
+  console.log(cartKR);
+
   const onIncrease = () => {
-    setNumber(number + 1);
+    const arr = [...orderItems];
+    const newItem = {
+      ...item,
+      count: item.count + 1,
+    };
+    arr.splice(index, 1, newItem);
+    setOrder({
+      ...order,
+      orderItems: arr,
+    });
   };
 
   const onDecrease = () => {
-    if (number > 0) setNumber(number - 1);
+    if (item.count !== 1) {
+      const arr = [...orderItems];
+      const newItem = {
+        ...item,
+        count: item.count - 1,
+      };
+      arr.splice(index, 1, newItem);
+      setOrder({
+        ...order,
+        orderItems: arr,
+      });
+    }
   };
+
+  console.log(size);
+  const vegetableStr =
+    vegetable.length !== 0 ? vegetable.join(', ') : '선택 안 함';
+  const sauceStr = sauce.length !== 0 ? sauce.join(', ') : '선택 안 함';
+  const toppingStr = topping.length !== 0 ? topping.join(', ') : '선택 안 함';
 
   return (
     <div
@@ -32,8 +73,6 @@ export default function CartItem({
         backgroundColor: 'var(--white)',
         borderRadius: '12px',
         filter: 'var(--dropShadow)',
-        // boxShadow:
-        //   '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
       }}
     >
       <div
@@ -58,7 +97,7 @@ export default function CartItem({
         >
           <img
             alt="menu"
-            src="https://www.subway.co.kr/upload/menu/Subway-Club%E2%84%A2_20211231095518589.png"
+            src={img}
             css={{ width: '14rem', marginTop: '-1rem' }}
           />
           <div
@@ -85,7 +124,7 @@ export default function CartItem({
                 fontWeight: 700,
               }}
             >
-              웨지감자 세트
+              {combo}
             </p>
           </div>
         </div>
@@ -108,18 +147,20 @@ export default function CartItem({
             marginLeft: '1rem',
           }}
         >
-          <div
-            css={{
-              color: 'var(--gray)',
-            }}
-          >
-            빵
-            <span
+          {size && (
+            <div
               css={{
-                color: 'var(--black)',
+                color: 'var(--gray)',
               }}
-            >{` – ${bread}`}</span>
-          </div>
+            >
+              빵
+              <span
+                css={{
+                  color: 'var(--black)',
+                }}
+              >{` – ${bread}`}</span>
+            </div>
+          )}
           <div
             css={{
               color: 'var(--gray)',
@@ -130,7 +171,7 @@ export default function CartItem({
               css={{
                 color: 'var(--black)',
               }}
-            >{` – ${cheese ?? '없음'}`}</span>
+            >{` – ${cheese ?? '선택 안 함'}`}</span>
           </div>
           <div
             css={{
@@ -142,7 +183,11 @@ export default function CartItem({
               css={{
                 color: 'var(--black)',
               }}
-            >{` – ${vegetable}`}</span>
+            >{` – ${
+              vegetableStr.length > 17
+                ? vegetableStr.substr(0, 17) + ' ...'
+                : vegetableStr
+            }`}</span>
           </div>
           <div
             css={{
@@ -154,7 +199,9 @@ export default function CartItem({
               css={{
                 color: 'var(--black)',
               }}
-            >{` – ${sauce}`}</span>
+            >{` – ${
+              sauceStr.length > 17 ? sauceStr.substr(0, 17) + ' ...' : sauceStr
+            }`}</span>
           </div>
           <div
             css={{
@@ -166,7 +213,11 @@ export default function CartItem({
               css={{
                 color: 'var(--black)',
               }}
-            >{` – ${topping ?? '없음'}`}</span>
+            >{` – ${
+              toppingStr.length > 17
+                ? toppingStr.substr(0, 17) + ' ...'
+                : toppingStr
+            }`}</span>
           </div>
         </div>
       </div>
@@ -188,7 +239,7 @@ export default function CartItem({
             marginBottom: '2rem',
           }}
         >
-          {price.toLocaleString()}원
+          {(item.price * item.count).toLocaleString()}원
         </div>
         <div
           css={{
@@ -216,7 +267,7 @@ export default function CartItem({
           >
             -
           </button>
-          {number}
+          {item.count}
           <button
             type="button"
             onClick={onIncrease}
@@ -252,6 +303,17 @@ export default function CartItem({
             '&:hover': {
               opacity: '50%',
             },
+          }}
+          onClick={() => {
+            const arr = [...orderItems];
+            const arrKR = [...cartKR];
+            arr.splice(index, 1);
+            setOrder({
+              ...order,
+              orderItems: arr,
+            });
+            arrKR.splice(index, 1);
+            setCartKR(arrKR);
           }}
         >
           <img src={Cancel} alt="X" />

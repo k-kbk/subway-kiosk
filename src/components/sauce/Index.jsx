@@ -2,9 +2,13 @@ import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getTopping } from '../../api/index';
 import { useRecoilState } from 'recoil';
+import {
+  currentOrderState,
+  currentOrderKRState,
+} from '../../recoil/current/index';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
-import itemRecoilState from '../../recoil/itemRecoilState';
+import None from '../../assets/none.svg';
 
 export default function Index() {
   const queryClient = useQueryClient();
@@ -22,23 +26,33 @@ export default function Index() {
   /** 프리페칭 데이터 */
   const prefetchData = queryClient.getQueryData(['sauce']);
   const sauceData = prefetchData.data;
-  const [itemState, setItemState] = useRecoilState(itemRecoilState);
+  const [currentOrder, setCurrentOrder] = useRecoilState(currentOrderState);
+  const [currentOrderKR, setCurrentOrderKR] =
+    useRecoilState(currentOrderKRState);
 
-  const setItem = (arr, id) => {
-    if (arr.includes(id)) {
-      let filtered = arr.filter((element) => element !== id);
-      setItemState({ ...itemState, sauceId: filtered });
+  const setItem = (id, name_kr) => {
+    if (currentOrder.sauceId.includes(id)) {
+      let filtered = currentOrder.sauceId.filter((element) => element !== id);
+      setCurrentOrder({ ...currentOrder, sauceId: filtered });
+      let filteredKR = currentOrderKR.sauce.filter(
+        (element) => element !== name_kr,
+      );
+      setCurrentOrderKR({ ...currentOrderKR, sauce: filteredKR });
     } else {
-      setItemState({
-        ...itemState,
-        sauceId: [...itemState.sauceId, id],
+      setCurrentOrder({
+        ...currentOrder,
+        sauceId: [...currentOrder.sauceId, id],
+      });
+      setCurrentOrderKR({
+        ...currentOrderKR,
+        sauce: [...currentOrderKR.sauce, name_kr],
       });
     }
   };
-
   useEffect(() => {
-    console.log(itemState);
-  }, [itemState]);
+    console.log(currentOrder);
+    console.log(currentOrderKR);
+  }, [currentOrder]);
 
   return (
     <MainGrid>
@@ -46,16 +60,28 @@ export default function Index() {
         <Card
           key={sauce.sauce_id}
           onClick={() => {
-            setItem(itemState.sauceId, sauce.sauce_id);
+            if (currentOrder.sauceId.length === 0) {
+              setItem(sauce.sauce_id, sauce.sauce_name_kr);
+            } else {
+              if (currentOrder.sauceId.indexOf(0) === 0) {
+                if (sauce.sauce_id === 0) {
+                  setItem(sauce.sauce_id, sauce.sauce_name_kr);
+                }
+              } else {
+                if (sauce.sauce_id !== 0) {
+                  setItem(sauce.sauce_id, sauce.sauce_name_kr);
+                }
+              }
+            }
           }}
           cardCss={{
-            border: itemState.sauceId.includes(sauce.sauce_id)
+            border: currentOrder.sauceId.includes(sauce.sauce_id)
               ? '6px solid var(--green)'
               : '',
           }}
         >
           <img
-            src={sauce.sauce_img}
+            src={sauce.sauce_img ? sauce.sauce_img : None}
             alt={sauce.sauce_name_kr}
             css={{
               width: '14rem',

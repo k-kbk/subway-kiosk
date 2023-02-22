@@ -1,9 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Button from '../home/Button.jsx';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useResetRecoilState } from 'recoil';
+import { orderState } from '../../recoil/order/index';
+import {
+  currentOrderState,
+  currentOrderKRState,
+} from '../../recoil/current/index';
+import menuTypeState from '../../recoil/menu/index';
+import cartKRState from '../../recoil/cart';
 
 export default function Index() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const waitingNumber = location.state.waitingNumber;
+  const resetOrder = useResetRecoilState(orderState);
+  const resetCurrentOrder = useResetRecoilState(currentOrderState);
+  const resetCurrentOrderKR = useResetRecoilState(currentOrderKRState);
+  const resetMenuType = useResetRecoilState(menuTypeState);
+  const resetCartKR = useResetRecoilState(cartKRState);
+
   const [number, decrease] = useState(5);
   /** 5초 뒤 초기화면으로 돌아감 */
   const timeout = () => {
@@ -18,6 +33,11 @@ export default function Index() {
   };
   /** 컴포넌트가 화면에 다 나타나면 timeout() 실행 */
   useEffect(() => {
+    resetMenuType();
+    resetOrder();
+    resetCurrentOrder();
+    resetCurrentOrderKR();
+    resetCartKR();
     timeout();
     return () => {
       clearTimeout(timeout);
@@ -39,41 +59,55 @@ export default function Index() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: '1rem',
       }}
     >
       <div
         css={{
-          fontSize: '72px',
-          fontStyle: 'normal',
-          fontWeight: '700',
+          fontSize: '3rem',
+          fontWeight: 700,
         }}
       >
         주문이 완료되었습니다!
       </div>
       <div
         css={{
-          fontSize: '88px',
-          fontStyle: 'normal',
-          fontWeight: '700',
+          fontSize: '3rem',
+          fontWeight: 700,
           color: 'var(--yellow)',
         }}
       >
-        주문 번호: 123
+        대기 번호: {waitingNumber}
+      </div>
+      <div css={{ margin: '4rem 0' }}>
+        <button
+          to="/"
+          onClick={() => {
+            clearTimeout(timeout);
+            navigate('/');
+          }}
+          css={{
+            color: 'var(--white)',
+            fontSize: '1.75rem',
+            fontWeight: 700,
+            width: '25rem',
+            height: '5rem',
+            borderRadius: '12px',
+            backgroundColor: 'var(--green)',
+            filter: 'var(--dropShadow)',
+            '&:hover': {
+              opacity: '50%',
+            },
+          }}
+        >
+          확인
+        </button>
       </div>
       <div
         css={{
-          marginTop: '70px',
-        }}
-      >
-        <Button>확인</Button>
-      </div>
-      <div
-        css={{
-          fontSize: '30px',
-          fontStyle: 'normal',
-          fontWeight: '700',
-          color: 'rgba(29, 28, 33, 0.8)',
-          marginTop: '50px',
+          fontSize: '1.5rem',
+          fontWeight: 700,
+          color: 'var(--gray)',
         }}
       >
         *{number}초 후, 초기화면으로 돌아갑니다

@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
-import itemRecoilState from '../../recoil/itemRecoilState';
+import {
+  currentOrderState,
+  currentOrderKRState,
+} from '../../recoil/current/index';
 
 export default function SandwichModal({
   setRenderModal,
@@ -22,11 +25,9 @@ export default function SandwichModal({
   function handleCloseModal() {
     setRenderModal(false);
   }
-  const [itemState, setItemState] = useRecoilState(itemRecoilState);
-
-  useEffect(() => {
-    console.log(itemState);
-  }, [itemState]);
+  const [currentOrder, setCurrentOrder] = useRecoilState(currentOrderState);
+  const [currentOrderKR, setCurrentOrderKR] =
+    useRecoilState(currentOrderKRState);
 
   return (
     <div
@@ -221,12 +222,18 @@ export default function SandwichModal({
               },
             }}
             onClick={() => {
-              setItemState({
-                ...itemState,
+              setCurrentOrder({
+                ...currentOrder,
                 count: 1,
                 menuId: id,
                 price: selectedSize === '15cm' ? price15 : price30,
-                currentPrice: selectedSize === '15cm' ? price15 : price30,
+              });
+              setCurrentOrderKR({
+                ...currentOrderKR,
+                img: img,
+                menu: nameKR,
+                size: selectedSize,
+                price: selectedSize === '15cm' ? price15 : price30,
               });
             }}
           >

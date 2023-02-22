@@ -2,7 +2,7 @@ import { atom } from 'recoil';
 
 /** 메뉴 타입 */
 const menuTypeState = atom({
-  key: 'menuType',
+  key: 'menu_type',
   default: 0,
 });
 

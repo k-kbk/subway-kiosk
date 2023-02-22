@@ -56,6 +56,10 @@ function getCombo() {
   });
 }
 
+function createOrder(orderData) {
+  return api.post('/order', orderData);
+}
+
 export {
   getSandwich,
   getSalad,
@@ -66,4 +70,5 @@ export {
   getSauce,
   getTopping,
   getCombo,
+  createOrder,
 };

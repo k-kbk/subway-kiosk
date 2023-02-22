@@ -16,13 +16,13 @@ export default function Card({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: '1rem 0',
+        margin: '0.75rem 0',
         backgroundColor: 'var(--white)',
         filter: 'var(--dropShadow)',
         borderRadius: '12px',
         cursor: 'pointer',
         '&:hover': {
-          opacity: '50%',
+          opacity: '70%',
         },
         ...cardCss,
       }}

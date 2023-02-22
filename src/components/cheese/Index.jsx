@@ -3,9 +3,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { getVegetable } from '../../api/index';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import {
+  currentOrderState,
+  currentOrderKRState,
+} from '../../recoil/current/index';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
-import itemRecoilState from '../../recoil/itemRecoilState';
 
 export default function Index() {
   const queryClient = useQueryClient();
@@ -23,12 +26,10 @@ export default function Index() {
   /** 프리페칭 데이터 */
   const prefetchData = queryClient.getQueryData(['cheese']);
   const cheeseData = prefetchData.data;
-  const [itemState, setItemState] = useRecoilState(itemRecoilState);
+  const [currentOrder, setCurrentOrder] = useRecoilState(currentOrderState);
+  const [currentOrderKR, setCurrentOrderKR] =
+    useRecoilState(currentOrderKRState);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(itemState);
-  }, [itemState]);
 
   return (
     <MainGrid
@@ -44,12 +45,18 @@ export default function Index() {
             margin: '10rem',
           }}
           onClick={() => {
-            setItemState({ ...itemState, cheeseId: cheese.id });
+            setCurrentOrder({ ...currentOrder, cheeseId: cheese.cheese_id });
+            setCurrentOrderKR({
+              ...currentOrderKR,
+              cheese: cheese.cheese_name_kr,
+            });
             navigate('/vegetable');
           }}
           cardCss={{
             border:
-              cheese.id === itemState.cheeseId ? '6px solid var(--green)' : '',
+              cheese.cheese_id === currentOrder.cheeseId
+                ? '6px solid var(--green)'
+                : '',
           }}
         >
           <img

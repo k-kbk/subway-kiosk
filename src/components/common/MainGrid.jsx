@@ -7,7 +7,7 @@ export default function MainGrid({ gridCss, children }) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '11.75rem 5rem 5rem 5rem',
+        padding: '11.375rem 5rem 4.75rem 5rem',
         backgroundColor: 'var(--lightGray)',
       }}
     >

@@ -1,6 +1,12 @@
-import { useLocation, Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { totalPriceState } from '../../recoil/order';
+import { orderState } from '../../recoil/order';
+import {
+  currentOrderState,
+  currentOrderKRState,
+} from '../../recoil/current/index';
+import cartKRState from '../../recoil/cart/index';
 import menuTypeState from '../../recoil/menu/index';
 import Left from '../../assets/left.svg';
 import Right from '../../assets/right.svg';
@@ -68,52 +74,53 @@ const nextBtn = {
   0: {
     '/bread': {
       to: '/cheese',
+      id: 'breadId',
     },
     '/cheese': {
       to: '/vegetable',
+      id: 'cheeseId',
     },
     '/vegetable': {
       to: '/sauce',
+      id: 'vegetableId',
     },
     '/sauce': {
       to: '/topping',
+      id: 'sauceId',
     },
     '/topping': {
       to: '/combo',
+      id: 'toppingId',
     },
   },
   1: {
     '/cheese': {
       to: '/vegetable',
+      id: 'cheeseId',
     },
     '/vegetable': {
       to: '/sauce',
+      id: 'vegetableId',
     },
     '/sauce': {
       to: '/topping',
+      id: 'sauceId',
     },
     '/topping': {
       to: '/combo',
+      id: 'toppingId',
     },
-  },
-};
-/** 초록 버튼 경로 및 내용 */
-const greenBtn = {
-  '/menu': {
-    to: '/cart',
-    content: '장바구니',
-  },
-  '/cart': {
-    to: '/payment',
-    content: '결제하기',
-  },
-  '/combo': {
-    to: '/menu',
-    content: '장바구니에 담기',
   },
 };
 
 export default function Bottom() {
+  const navigate = useNavigate();
+  const totalPrice = useRecoilValue(totalPriceState);
+  const menuType = useRecoilValue(menuTypeState);
+  const currentOrder = useRecoilValue(currentOrderState);
+  const currentOrderKR = useRecoilValue(currentOrderKRState);
+  const [order, setOrder] = useRecoilState(orderState);
+  const [cartKR, setCartKR] = useRecoilState(cartKRState);
   /** 현재 페이지에 대한 정보 */
   const location = useLocation();
   /** 현재 페이지의 경로명 */
@@ -138,11 +145,25 @@ export default function Bottom() {
   /** 초록 버튼 렌더링 여부 */
   const renderGreenBtn =
     curPath === '/menu' || curPath === '/cart' || curPath === '/combo';
+  /** 초록 버튼 경로 및 내용 */
+  const greenBtn = {
+    '/menu': {
+      to: '/cart',
+      content: '장바구니',
+    },
+    '/cart': {
+      to: '/payment',
+      content: '결제하기',
+    },
+    '/combo': {
+      to: '/menu',
+      content: '장바구니에 담기',
+    },
+  };
   /** 현재 경로 일치 여부 */
   const isMenu = curPath === '/menu';
-  /** 총 금액 */
-  const totalPrice = useRecoilValue(totalPriceState);
-  const menuType = useRecoilValue(menuTypeState);
+  const isCart = curPath === '/cart';
+  const isPayment = curPath === '/payment';
 
   return (
     <nav
@@ -194,11 +215,15 @@ export default function Bottom() {
           left: 'calc(50% - 6rem)',
         }}
       >
-        {`${totalPrice}원`}
+        {`${
+          isCart || isPayment
+            ? totalPrice.toLocaleString()
+            : currentOrder.price.toLocaleString()
+        }원`}
       </div>
       {renderNextBtn && (
-        <Link
-          to={nextBtn[menuType][curPath].to}
+        <button
+          onClick={() => navigate(nextBtn[menuType][curPath].to)}
           css={{
             display: 'flex',
             justifyContent: 'center',
@@ -208,6 +233,11 @@ export default function Bottom() {
               opacity: '50%',
             },
           }}
+          disabled={
+            Array.isArray(currentOrder[nextBtn[menuType][curPath].id])
+              ? currentOrder[nextBtn[menuType][curPath].id].length === 0
+              : currentOrder[nextBtn[menuType][curPath].id] === null
+          }
         >
           다음
           <img
@@ -218,11 +248,10 @@ export default function Bottom() {
               margin: '0 0.5rem',
             }}
           />
-        </Link>
+        </button>
       )}
       {renderGreenBtn && (
-        <Link
-          to={greenBtn[curPath].to}
+        <button
           css={{
             color: 'var(--white)',
             fontWeight: 700,
@@ -236,9 +265,29 @@ export default function Bottom() {
               opacity: '50%',
             },
           }}
+          onClick={() => {
+            if (curPath === '/combo') {
+              console.log('here3');
+              if (currentOrder.comboId) {
+                setOrder({
+                  ...order,
+                  orderItems: [...order.orderItems, currentOrder],
+                });
+                setCartKR([...cartKR, currentOrderKR]);
+                navigate(greenBtn[curPath].to);
+              }
+            }
+            if (curPath === '/cart' && cartKR.length !== 0) {
+              navigate(greenBtn[curPath].to);
+            }
+            if (curPath === '/menu') {
+              console.log('here2');
+              navigate(greenBtn[curPath].to);
+            }
+          }}
         >
           {greenBtn[curPath].content}
-        </Link>
+        </button>
       )}
     </nav>
   );

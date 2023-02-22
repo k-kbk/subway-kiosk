@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useRecoilState } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 import { getBread, getCheese } from '../../api/index';
+import {
+  currentOrderState,
+  currentOrderKRState,
+} from '../../recoil/current/index';
 import menuTypeState from '../../recoil/menu/index';
 import divide from '../../utils/divide';
 import MainGrid from '../common/MainGrid';
@@ -13,6 +17,11 @@ import SandwichModal from '../common/SandwichModal';
 export default function Index() {
   const [renderModal, setRenderModal] = useState(false);
   const [modalMenu, setModalMenu] = useState([]);
+  const resetCurrentOrder = useResetRecoilState(currentOrderState);
+  const resetCurrentOrderKR = useResetRecoilState(currentOrderKRState);
+  const [currentOrder, setCurrentOrder] = useRecoilState(currentOrderState);
+  const [currentOrderKR, setCurrentOrderKR] =
+    useRecoilState(currentOrderKRState);
   const menuType = useRecoilValue(menuTypeState);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -29,6 +38,8 @@ export default function Index() {
   };
   useEffect(() => {
     prefetchBreadCheese();
+    resetCurrentOrder();
+    resetCurrentOrderKR();
   }, []);
 
   /** 프리페칭 데이터 */
@@ -42,6 +53,18 @@ export default function Index() {
   /** 모달창 열기 */
   function handleClickMenu(menu) {
     if (menuType) {
+      setCurrentOrder({
+        ...currentOrder,
+        menuId: menu.menu_id,
+        count: 1,
+        price: menu.menu_price,
+      });
+      setCurrentOrderKR({
+        ...currentOrderKR,
+        img: menu.menu_img,
+        menu: menu.menu_name_kr,
+        price: menu.menu_price,
+      });
       navigate('/cheese');
     } else {
       setModalMenu(menu);
@@ -67,16 +90,17 @@ export default function Index() {
             alt={menuType ? menu.menu_name_kr : menu[0].menu_name_kr}
             css={{
               width: '13rem',
-              margin: '-0.5rem 0 0 0',
+              margin: '-1rem 0 0 0',
             }}
           />
           <div
             css={{
-              lineHeight: 1.2,
+              lineHeight: 1.1,
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
+              marginTop: '0.25rem',
             }}
           >
             <p
@@ -102,6 +126,7 @@ export default function Index() {
               color: 'var(--green)',
               fontSize: '1.5rem',
               fontWeight: 700,
+              lineHeight: 1.1,
               marginTop: '0.5rem',
             }}
           >
@@ -111,6 +136,7 @@ export default function Index() {
             css={{
               color: 'var(--yellow)',
               fontWeight: 700,
+              lineHeight: 1.1,
             }}
           >
             {`${menuType ? menu.menu_kcal : menu[0].menu_kcal}kcal`}
@@ -121,6 +147,7 @@ export default function Index() {
         <ModalPortal>
           <SandwichModal
             setRenderModal={setRenderModal}
+            id={modalMenu[0].menu_id}
             img={modalMenu[0].menu_img}
             kcal={modalMenu[0].menu_kcal}
             nameKR={modalMenu[0].menu_name_kr}

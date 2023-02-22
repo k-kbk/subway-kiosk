@@ -18,7 +18,7 @@ export default function Title({ children }) {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '0 0 1rem 0',
+        padding: '0 0 0.875rem 0',
       }}
     >
       <div

@@ -1,3 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
+import { useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { createOrder } from '../../api/index';
+import { orderState, totalPriceState } from '../../recoil/order';
+
 const payments = [
   {
     id: 1,
@@ -17,6 +23,24 @@ const payments = [
 ];
 
 export default function Index() {
+  const navigate = useNavigate();
+  const order = useRecoilValue(orderState);
+  const totalPrice = useRecoilValue(totalPriceState);
+  const mutation = useMutation(createOrder, {
+    onMutate() {},
+    onSuccess(data) {
+      console.log(data.data.data);
+      navigate('/result', {
+        state: {
+          waitingNumber: data.data.data.waitingNumber,
+        },
+      });
+    },
+    onError(err) {
+      console.log(err);
+    },
+  });
+
   return (
     <div
       css={{
@@ -29,7 +53,7 @@ export default function Index() {
         backgroundColor: 'var(--lightGray)',
       }}
     >
-      <div css={{ display: 'flex' }}>
+      <div css={{ display: 'flex', padding: '2rem 0 0 0' }}>
         {payments.map((payment) => (
           <button
             type="button"
@@ -44,7 +68,7 @@ export default function Index() {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              margin: '0 4rem',
+              margin: '0 3rem',
               backgroundColor: 'var(--white)',
               borderRadius: '12px',
               '&:hover': {
@@ -53,6 +77,13 @@ export default function Index() {
               filter: 'var(--dropShadow)',
               // boxShadow:
               //   '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+            }}
+            onClick={() => {
+              mutation.mutate({
+                ...order,
+                order_price: totalPrice,
+                payType: payment.id,
+              });
             }}
           >
             <img

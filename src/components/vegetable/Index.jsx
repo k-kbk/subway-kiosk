@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getSauce } from '../../api/index';
 import { useRecoilState } from 'recoil';
+import {
+  currentOrderState,
+  currentOrderKRState,
+} from '../../recoil/current/index';
 import MainGrid from '../common/MainGrid';
 import Card from '../common/Card';
-import itemRecoilState from '../../recoil/itemRecoilState';
+import None from '../../assets/none.svg';
 
 export default function Index() {
   const queryClient = useQueryClient();
@@ -22,41 +26,65 @@ export default function Index() {
   /** 프리페칭 데이터 */
   const prefetchData = queryClient.getQueryData(['vegetable']);
   const vegetableData = prefetchData.data;
-  const [itemState, setItemState] = useRecoilState(itemRecoilState);
+  const [currentOrder, setCurrentOrder] = useRecoilState(currentOrderState);
+  const [currentOrderKR, setCurrentOrderKR] =
+    useRecoilState(currentOrderKRState);
 
-  const setItem = (arr, id) => {
-    if (arr.includes(id)) {
-      let filtered = arr.filter((element) => element !== id);
-      setItemState({ ...itemState, vegetableId: filtered });
+  useEffect(() => {
+    console.log(currentOrder);
+    console.log(currentOrderKR);
+  }, [currentOrder]);
+
+  const setItem = (id, name_kr) => {
+    if (currentOrder.vegetableId.includes(id)) {
+      let filtered = currentOrder.vegetableId.filter(
+        (element) => element !== id,
+      );
+      setCurrentOrder({ ...currentOrder, vegetableId: filtered });
+      let filteredKR = currentOrderKR.vegetable.filter(
+        (element) => element !== name_kr,
+      );
+      setCurrentOrderKR({ ...currentOrderKR, vegetable: filteredKR });
     } else {
-      setItemState({
-        ...itemState,
-        vegetableId: [...itemState.vegetableId, id],
+      setCurrentOrder({
+        ...currentOrder,
+        vegetableId: [...currentOrder.vegetableId, id],
+      });
+      setCurrentOrderKR({
+        ...currentOrderKR,
+        vegetable: [...currentOrderKR.vegetable, name_kr],
       });
     }
   };
 
-  useEffect(() => {
-    console.log(itemState);
-  }, [itemState]);
-
   return (
     <MainGrid>
       {vegetableData.map((vegetable) => (
-        <Card key={vegetable.vegetable_id}>
         <Card
           key={vegetable.vegetable_id}
           onClick={() => {
-            setItem(itemState.vegetableId, vegetable.vegetable_id);
+            if (currentOrder.vegetableId.length === 0) {
+              setItem(vegetable.vegetable_id, vegetable.vegetable_name_kr);
+            } else {
+              if (currentOrder.vegetableId.indexOf(0) === 0) {
+                if (vegetable.vegetable_id === 0) {
+                  setItem(vegetable.vegetable_id, vegetable.vegetable_name_kr);
+                }
+              } else {
+                if (vegetable.vegetable_id !== 0) {
+                  setItem(vegetable.vegetable_id, vegetable.vegetable_name_kr);
+                }
+              }
+            }
           }}
           cardCss={{
-            border: itemState.vegetableId.includes(vegetable.vegetable_id)
+            border: currentOrder.vegetableId.includes(vegetable.vegetable_id)
               ? '6px solid var(--green)'
               : '',
           }}
         >
           <img
-            src={vegetable.vegetable_img}
+            src={vegetable.vegetable_img ? vegetable.vegetable_img : None}
             alt={vegetable.vegetable_name_kr}
             css={{
               width: '14rem',

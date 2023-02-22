@@ -1,9 +1,32 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useResetRecoilState } from 'recoil';
+import { orderState } from '../../recoil/order/index';
+import {
+  currentOrderState,
+  currentOrderKRState,
+} from '../../recoil/current/index';
+import menuTypeState from '../../recoil/menu/index';
+import cartKRState from '../../recoil/cart';
 
 export default function Modal({ setRenderModal }) {
+  const navigate = useNavigate();
+  const resetOrder = useResetRecoilState(orderState);
+  const resetCurrentOrder = useResetRecoilState(currentOrderState);
+  const resetCurrentOrderKR = useResetRecoilState(currentOrderKRState);
+  const resetMenuType = useResetRecoilState(menuTypeState);
+  const resetCartKR = useResetRecoilState(cartKRState);
   /** 모달창 닫기 */
   function handleCloseModal() {
     setRenderModal(false);
+  }
+  /** 모달창 닫기 */
+  function handleClickHome() {
+    resetMenuType();
+    resetOrder();
+    resetCurrentOrder();
+    resetCurrentOrderKR();
+    resetCartKR();
+    navigate('/');
   }
 
   return (
@@ -82,7 +105,7 @@ export default function Modal({ setRenderModal }) {
           >
             취소
           </button>
-          <Link
+          <button
             to="/"
             css={{
               textAlign: 'center',
@@ -92,9 +115,10 @@ export default function Modal({ setRenderModal }) {
                 opacity: '50%',
               },
             }}
+            onClick={handleClickHome}
           >
             초기화면으로
-          </Link>
+          </button>
         </div>
       </div>
     </div>
