@@ -5,7 +5,7 @@ import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { placeState } from '../../recoil/order';
 import { getSandwich, getSalad } from '../../api/index';
 import Logo from '../../assets/logo_original.svg';
-import Banner from '../../assets/banner2.svg';
+import Banner from '../../assets/banner3.svg';
 
 export default function Index() {
   const navigate = useNavigate();
@@ -97,11 +97,7 @@ export default function Index() {
             padding: '1.5rem 0 1.5rem 2rem',
           }}
         >
-          <img
-            src={Banner}
-            css={{ height: '100%', marginBottom: '1rem' }}
-            alt="banner"
-          />
+          <img src={Banner} css={{ height: '100%' }} alt="banner" />
         </div>
         <div
           css={{
